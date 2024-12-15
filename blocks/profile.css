@@ -68,7 +68,7 @@
   background: url(../images/Add-Button-hover.svg) center no-repeat;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 320px) {
   .profile {
     background-color: black;
     display: flex;
@@ -81,5 +81,37 @@
     width: 100%;
     padding-left: 62px;
     padding-right: 62px;
+    padding-top: 30px;
+    justify-content: center;
+  }
+
+  .profile__title {
+    width: 196px;
+    height: 22px;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 26.63;
+    display: flex;
+    align-items: center;
+  }
+
+  .profile__subtitle {
+    width: 282px;
+    height: 14px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16.94px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .profile__add-button {
+    width: 100%;
+    padding: 36px 19px 36px 19px;
+  }
+
+  .profile__photo {
+    display: flex;
+    justify-content: center;
   }
 }
