@@ -29,7 +29,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  grid-area: "subtitle";
+  grid-area: subtitle;
   margin: 0;
 }
 
@@ -43,17 +43,18 @@
   box-sizing: border-box;
   display: block;
   grid-area: button;
+  cursor: pointer;
 }
 
 .profile__edit-button:hover {
-  opacity: 50%;
+  opacity: 60%;
 }
 
 .profile__info {
   display: grid;
   grid-template-areas:
     "title button"
-    "subtile subtile";
+    "subtitle subtitle";
   grid-template-columns: minmax(auto, 373px) auto;
   grid-gap: 7px 17px;
   align-items: center;
@@ -67,16 +68,19 @@
   background-size: 22px;
   border-radius: 2px;
   margin-left: auto;
+  cursor: pointer;
 }
 
 .profile__add-button:hover {
-  opacity: 50%;
+  opacity: 60%;
 }
 
 @media (max-width: 320px) {
   .profile {
-    background-color: black;
     flex-direction: column;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .profile__info {
@@ -91,7 +95,6 @@
     width: 196px;
     font-size: 22px;
     line-height: 38px;
-    display: flex;
     align-items: center;
   }
 
@@ -121,5 +124,16 @@
     display: flex;
     justify-content: center;
     margin-right: 0;
+  }
+}
+
+@media (max-width: 621px) {
+  .profile {
+    flex-direction: column;
+  }
+
+  .profile__subtitle {
+    display: flex;
+    justify-content: center;
   }
 }
