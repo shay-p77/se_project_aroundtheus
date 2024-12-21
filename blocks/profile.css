@@ -21,7 +21,9 @@
   line-height: 48px;
   grid-area: title;
   margin: 0;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile__subtitle {
@@ -31,6 +33,9 @@
   line-height: 22px;
   grid-area: subtitle;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .profile__edit-button {
@@ -75,12 +80,29 @@
   opacity: 60%;
 }
 
-@media (max-width: 320px) {
+@media screen and (max-width: 768px) {
   .profile {
     flex-direction: column;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  }
+
+  .profile__subtitle {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .profile {
+    flex-direction: column;
+  }
+
+  .profile__subtitle {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .profile {
+    flex-direction: column;
   }
 
   .profile__info {
@@ -124,16 +146,5 @@
     display: flex;
     justify-content: center;
     margin-right: 0;
-  }
-}
-
-@media (max-width: 621px) {
-  .profile {
-    flex-direction: column;
-  }
-
-  .profile__subtitle {
-    display: flex;
-    justify-content: center;
   }
 }

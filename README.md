@@ -2,6 +2,8 @@
 
 https://github.com/shay-p77/se_project_aroundtheus.git
 
+Deployed Project: https://shay-p77.github.io/se_project_aroundtheus/
+
 Around The U.S.
 This project features a profile of Jacques Cousteau. It highlights some photographs taken in various places.
 I used HTML and CSS to create the layout and styling of the webpage. I used flexbox, grid, and BEM to make the page look exactly like the layout on figma.
