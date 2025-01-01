@@ -31,3 +31,20 @@ const initialCards = [
 ];
 
 console.log(initialCards);
+
+const profileEditButton = document.querySelector("#profile-edit-button");
+const profileEditModal = document.querySelector("#profile-edit-modal");
+const profileEditModalClose = document.querySelector("#profile-modal-close");
+
+profileEditButton.addEventListener("click", () => {
+  profileEditModal.classList.add('modal__open');
+});
+
+ 
+
+profileEditModalClose.addEventListener("click", () => {
+  profileEditModalClose.classList.remove('modal__open');
+});
+
+// get the modal close button to work
+ 

@@ -10,12 +10,11 @@
   padding: 0 19px;
   align-items: center;
   justify-content: center;
-
-  /* display: none; */
+  display: none;
 }
 
 .modal__open {
-  /* display: flex; */
+  display: flex;
 }
 
 .modal__container {
@@ -23,6 +22,8 @@
   padding: 36px;
   border-radius: 10px;
   position: relative;
+  /* max-width: 430px;
+ height: 330px; */
 }
 
 .modal__close {
@@ -38,6 +39,10 @@
   right: -45px;
 }
 
+.modal__close:hover {
+    opacity: 50%;
+}
+
 .modal__heading {
   color: #000;
   font-family: "Inter", Arial, Helvetica, sans-serif;
@@ -51,6 +56,8 @@
 .modal__form {
   display: flex;
   flex-direction: column;
+  /* width: 430px;
+  height: 330px; */
 }
 
 .modal__input {
@@ -66,5 +73,11 @@
   border-radius: 2px;
   border: none;
 }
+
+.modal__button:hover {
+    opacity: 70%;
+}
+
+/* fix the layout styles of the modal */
 
 /* move close button at 630-320 */
