@@ -44,6 +44,10 @@ const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
+const cardAddModal = document.querySelector("#card-add-modal");
+const cardAddButton = document.querySelector(".profile__add-button");
+const cardAddModalClose = document.querySelector("#add-modal-close");
+
 // functions
 
 function closePopup() {
@@ -73,6 +77,17 @@ profileEditModalClose.addEventListener("click", () => {
   closePopup();
 });
 
+cardAddButton.addEventListener("click", () => {
+  cardAddModal.classList.add("modal_open");
+});
+
+ 
+cardAddModalClose.addEventListener("click", () => {
+closePopup();
+});
+
+// get modal to close 
+
 profileEditForm.addEventListener("submit", (e) => {
   e.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
@@ -84,3 +99,34 @@ initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
   cardListEl.append(cardElement);
 });
+
+initialCards.forEach(function (cardData) {
+  // clone template
+  const cardEl = cardTemplate.cloneNode(true);
+  // find .card__image
+  const imageEl = cardEl.querySelector(".card__image");
+  // find card__title
+  const cardTitle = cardEl.querySelector(".card__title");
+  // replace img src
+  imageEl.src = cardData.link;
+  // replace img alt
+  imageEl.alt = cardData.name;
+  // replace title
+  cardTitle.textContent = cardData.name;
+  // append to list
+  cardListEl.appendChild(cardElement);
+});
+
+
+// TO DO 
+
+// make add modal functional
+
+// like button functional
+
+// deleting a card 
+
+// opening picture modal 
+
+// smooth modal opening and closing
+
