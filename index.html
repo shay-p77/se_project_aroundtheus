@@ -144,29 +144,30 @@
           type="button"
         ></button>
         <p class="modal__heading">New Place</p>
-        <form class="modal__form">
+        <form class="modal__form" id="card-add-form" >
           <input
             class="modal__input"
-            id="profile-title-input"
+            id="card-title-input"
             type="text"
             name="title"
             placeholder="Title"
           />
           <input
             class="modal__input"
-            id="profile-subtitle-input"
+            id="card-link-input"
             type="text"
             name="image-link"
             placeholder="Image link"
           />
-          <button class="modal__button" type="submit">Save</button>
+          <button class="modal__button" id="save-card" type="submit">Save</button>
         </form>
       </div>
     </div>
 
 
     <template id="card-template">
-      <li class="card">
+      <li class="card" id="card">
+        <button class="card__delete-button" onclick="deletingCard()" type="button"></button>
         <img src=" " alt=" " class="card__image" />
         <div class="card__description">
           <h2 class="card__title"></h2>

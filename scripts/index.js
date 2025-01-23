@@ -32,6 +32,8 @@ const initialCards = [
 
 // Elements
 
+// profile elements
+
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const profileEditModalClose = document.querySelector("#profile-modal-close");
@@ -40,18 +42,33 @@ const profileSubtitle = document.querySelector(".profile__subtitle");
 const profileTitleInput = document.querySelector("#profile-title-input");
 const profileSubtitleInput = document.querySelector("#profile-subtitle-input");
 const profileEditForm = profileEditModal.querySelector(".modal__form");
+
+// card elements
+
 const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
+// add card elements
+
 const cardAddModal = document.querySelector("#card-add-modal");
 const cardAddButton = document.querySelector(".profile__add-button");
 const cardAddModalClose = document.querySelector("#add-modal-close");
+const cardTitleInput = document.querySelector("#card-title-input");
+const cardLinkInput = document.querySelector("#card-link-input");
+const cardTitle = document.querySelector(".card__title");
+const cardImage = document.querySelector(".card__image");
+const cardAddForm = document.querySelector("#card-add-form");
+const saveCardButton = document.querySelector("#save-card");
 
 // functions
 
-function closePopup() {
-  profileEditModal.classList.remove("modal_open");
+function closePopup(modal) {
+  modal.classList.remove("modal_open");
+}
+
+function closePopup(modal) {
+  modal.classList.remove("modal_open");
 }
 
 function getCardElement(cardData) {
@@ -65,6 +82,16 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
+function deletingCard() {
+  const deleteCardButton = document.querySelector(".card");
+  deleteCardButton.remove("#card");
+}
+
+function renderCard(cardData) {
+  const cardElement = getCardElement(cardData);
+  cardListEl.prepend(cardElement);
+}
+
 // eventlisteners
 
 profileEditButton.addEventListener("click", () => {
@@ -74,25 +101,30 @@ profileEditButton.addEventListener("click", () => {
 });
 
 profileEditModalClose.addEventListener("click", () => {
-  closePopup();
+  closePopup(profileEditModal);
 });
 
 cardAddButton.addEventListener("click", () => {
   cardAddModal.classList.add("modal_open");
 });
 
- 
 cardAddModalClose.addEventListener("click", () => {
-closePopup();
+  closePopup(cardAddModal);
 });
-
-// get modal to close 
 
 profileEditForm.addEventListener("submit", (e) => {
   e.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
   profileSubtitle.textContent = profileSubtitleInput.value;
-  closePopup();
+  closePopup(profileEditModal);
+});
+
+cardAddForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = cardTitleInput.value;
+  const link = cardLinkInput.value;
+  renderCard({ name, link }, cardListEl);
+  closePopup(cardAddModal);
 });
 
 initialCards.forEach((cardData) => {
@@ -101,32 +133,24 @@ initialCards.forEach((cardData) => {
 });
 
 initialCards.forEach(function (cardData) {
-  // clone template
   const cardEl = cardTemplate.cloneNode(true);
-  // find .card__image
   const imageEl = cardEl.querySelector(".card__image");
-  // find card__title
   const cardTitle = cardEl.querySelector(".card__title");
-  // replace img src
   imageEl.src = cardData.link;
-  // replace img alt
   imageEl.alt = cardData.name;
-  // replace title
   cardTitle.textContent = cardData.name;
-  // append to list
-  cardListEl.appendChild(cardElement);
+  // cardListEl.prependChild(cardEl);
 });
 
+// TO DO
 
-// TO DO 
-
-// make add modal functional
-
-// like button functional
-
-// deleting a card 
-
-// opening picture modal 
+// opening picture modal
 
 // smooth modal opening and closing
 
+const likeButtons = document.querySelectorAll(".card__like-button");
+likeButtons.forEach((likeButton) => {
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_active");
+  });
+});
