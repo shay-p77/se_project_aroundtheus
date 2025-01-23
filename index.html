@@ -29,7 +29,11 @@
             ></button>
             <p class="profile__subtitle">Explorer</p>
           </div>
-          <button class="profile__add-button" id="profile-add-button" type="button"></button>
+          <button
+            class="profile__add-button"
+            id="profile-add-button"
+            type="button"
+          ></button>
         </section>
         <section class="cards page__section">
           <ul class="cards__list">
@@ -144,7 +148,7 @@
           type="button"
         ></button>
         <p class="modal__heading">New Place</p>
-        <form class="modal__form" id="card-add-form" >
+        <form class="modal__form" id="card-add-form">
           <input
             class="modal__input"
             id="card-title-input"
@@ -159,15 +163,32 @@
             name="image-link"
             placeholder="Image link"
           />
-          <button class="modal__button" id="save-card" type="submit">Save</button>
+          <button class="modal__button" id="save-card" type="submit">
+            Save
+          </button>
         </form>
       </div>
     </div>
 
+    <div class="modal" id="js-preview-modal">
+      <div class="modal__container modal__container_type_preview">
+        <button
+          class="modal__close"
+          type="button"
+          id="image-modal-close"
+        ></button>
+        <img class="modal__preview-image" src="" , alt="" />
+        <p class="modal__preview-image_title" id="modal-image-title"></p>
+      </div>
+    </div>
 
     <template id="card-template">
       <li class="card" id="card">
-        <button class="card__delete-button" onclick="deletingCard()" type="button"></button>
+        <button
+          class="card__delete-button"
+          onclick="deletingCard()"
+          type="button"
+        ></button>
         <img src=" " alt=" " class="card__image" />
         <div class="card__description">
           <h2 class="card__title"></h2>

@@ -61,11 +61,13 @@ const cardImage = document.querySelector(".card__image");
 const cardAddForm = document.querySelector("#card-add-form");
 const saveCardButton = document.querySelector("#save-card");
 
-// functions
+// image modal elements
 
-function closePopup(modal) {
-  modal.classList.remove("modal_open");
-}
+const previewImageModal = document.querySelector("#js-preview-modal");
+const previewImage = document.querySelector(".modal__preview-image");
+const previewIamgeTitle = document.querySelector("#modal-image-title");
+
+// functions
 
 function closePopup(modal) {
   modal.classList.remove("modal_open");
@@ -75,7 +77,23 @@ function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
-  cardTitleEl.textContent = cardData.name;
+  const likeButton = cardElement.querySelector(".card__like-button");
+
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_active");
+  });
+
+  cardImageEl.addEventListener("click", function () {
+    previewImageModal.classList.add("modal_open");
+    previewImage.src = cardData.link;
+    previewIamgeTitle.textContent = cardData.name;
+  });
+
+  previewImageModal.addEventListener("click", (e) => {
+    e.preventDefault();
+    closePopup(previewImageModal);
+  });
+
   cardTitleEl.textContent = cardData.name;
   cardImageEl.src = cardData.link;
   cardImageEl.alt = cardData.name;
@@ -127,6 +145,8 @@ cardAddForm.addEventListener("submit", (e) => {
   closePopup(cardAddModal);
 });
 
+// for each
+
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
   cardListEl.append(cardElement);
@@ -140,17 +160,4 @@ initialCards.forEach(function (cardData) {
   imageEl.alt = cardData.name;
   cardTitle.textContent = cardData.name;
   // cardListEl.prependChild(cardEl);
-});
-
-// TO DO
-
-// opening picture modal
-
-// smooth modal opening and closing
-
-const likeButtons = document.querySelectorAll(".card__like-button");
-likeButtons.forEach((likeButton) => {
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_active");
-  });
 });
