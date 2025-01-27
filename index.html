@@ -164,21 +164,21 @@
             placeholder="Image link"
           />
           <button class="modal__button" id="save-card" type="submit">
-            Save
+            Create
           </button>
         </form>
       </div>
     </div>
 
-    <div class="modal" id="js-preview-modal">
-      <div class="modal__container modal__container_type_preview">
+    <div class="modal modal__container_type_preview" id="js-preview-modal">
+      <div class="modal__image-container">
         <button
           class="modal__close"
           type="button"
           id="image-modal-close"
         ></button>
-        <img class="modal__preview-image" src="" , alt="" />
-        <p class="modal__preview-image_title" id="modal-image-title"></p>
+        <img class="modal__preview-image" src="" alt="" />
+        <p class="modal__preview-caption" id="modal-image-title"></p>
       </div>
     </div>
 
@@ -186,8 +186,8 @@
       <li class="card" id="card">
         <button
           class="card__delete-button"
-          onclick="deletingCard()"
           type="button"
+          id="card-delete-button"
         ></button>
         <img src=" " alt=" " class="card__image" />
         <div class="card__description">

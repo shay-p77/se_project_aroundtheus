@@ -66,6 +66,7 @@ const saveCardButton = document.querySelector("#save-card");
 const previewImageModal = document.querySelector("#js-preview-modal");
 const previewImage = document.querySelector(".modal__preview-image");
 const previewIamgeTitle = document.querySelector("#modal-image-title");
+const previewImageModalClose = document.querySelector("#image-modal-close");
 
 // functions
 
@@ -73,36 +74,36 @@ function closePopup(modal) {
   modal.classList.remove("modal_open");
 }
 
+function openPopup(modal) {
+  modal.classList.add("modal_open");
+}
+
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
   const likeButton = cardElement.querySelector(".card__like-button");
+  const deleteCardButton = cardElement.querySelector("#card-delete-button");
 
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active");
   });
 
   cardImageEl.addEventListener("click", function () {
-    previewImageModal.classList.add("modal_open");
+    openPopup(previewImageModal);
     previewImage.src = cardData.link;
+    previewImage.alt = cardData.name;
     previewIamgeTitle.textContent = cardData.name;
   });
 
-  previewImageModal.addEventListener("click", (e) => {
-    e.preventDefault();
-    closePopup(previewImageModal);
+  deleteCardButton.addEventListener("click", () => {
+    cardElement.remove();
   });
 
   cardTitleEl.textContent = cardData.name;
   cardImageEl.src = cardData.link;
   cardImageEl.alt = cardData.name;
   return cardElement;
-}
-
-function deletingCard() {
-  const deleteCardButton = document.querySelector(".card");
-  deleteCardButton.remove("#card");
 }
 
 function renderCard(cardData) {
@@ -115,7 +116,7 @@ function renderCard(cardData) {
 profileEditButton.addEventListener("click", () => {
   profileTitleInput.value = profileTitle.textContent;
   profileSubtitleInput.value = profileSubtitle.textContent;
-  profileEditModal.classList.add("modal_open");
+  openPopup(profileEditModal);
 });
 
 profileEditModalClose.addEventListener("click", () => {
@@ -123,7 +124,7 @@ profileEditModalClose.addEventListener("click", () => {
 });
 
 cardAddButton.addEventListener("click", () => {
-  cardAddModal.classList.add("modal_open");
+  openPopup(cardAddModal);
 });
 
 cardAddModalClose.addEventListener("click", () => {
@@ -139,10 +140,16 @@ profileEditForm.addEventListener("submit", (e) => {
 
 cardAddForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  e.target.reset();
   const name = cardTitleInput.value;
   const link = cardLinkInput.value;
   renderCard({ name, link }, cardListEl);
   closePopup(cardAddModal);
+});
+
+previewImageModalClose.addEventListener("click", (e) => {
+  e.preventDefault();
+  closePopup(previewImageModal);
 });
 
 // for each
@@ -152,12 +159,6 @@ initialCards.forEach((cardData) => {
   cardListEl.append(cardElement);
 });
 
-initialCards.forEach(function (cardData) {
-  const cardEl = cardTemplate.cloneNode(true);
-  const imageEl = cardEl.querySelector(".card__image");
-  const cardTitle = cardEl.querySelector(".card__title");
-  imageEl.src = cardData.link;
-  imageEl.alt = cardData.name;
-  cardTitle.textContent = cardData.name;
-  // cardListEl.prependChild(cardEl);
-});
+// TO FIX
+
+// fix card deleting (first card gets deleted when 3rd is clicked)
