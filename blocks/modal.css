@@ -31,6 +31,7 @@
   border-radius: 10px;
   position: relative;
   max-width: 430px;
+  height: 250px;
   width: 100%;
 }
 
@@ -86,6 +87,7 @@
   color: #fff;
   border-radius: 2px;
   border: none;
+  margin-top: 25px;
   padding: 0;
   height: 50px;
   font-family: "Inter", Arial, Helvetica, sans-serif;

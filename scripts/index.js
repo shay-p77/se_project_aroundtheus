@@ -140,10 +140,10 @@ profileEditForm.addEventListener("submit", (e) => {
 
 cardAddForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  e.target.reset();
   const name = cardTitleInput.value;
   const link = cardLinkInput.value;
   renderCard({ name, link }, cardListEl);
+  e.target.reset();
   closePopup(cardAddModal);
 });
 
@@ -158,7 +158,3 @@ initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
   cardListEl.append(cardElement);
 });
-
-// TO FIX
-
-// fix card deleting (first card gets deleted when 3rd is clicked)
