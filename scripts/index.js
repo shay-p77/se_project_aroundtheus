@@ -152,7 +152,45 @@ previewImageModalClose.addEventListener("click", (e) => {
   closePopup(previewImageModal);
 });
 
-// for each
+const profileModal = document.querySelector("#profile-edit-modal");
+const cardModal = document.querySelector("#card-add-modal");
+const imageModal = document.querySelector("#js-preview-modal");
+
+profileModal.addEventListener("click", (e) => {
+  if (e.target === profileModal) {
+    closePopup(profileEditModal);
+  }
+});
+
+cardModal.addEventListener("click", (e) => {
+  if (e.target === cardModal) {
+    closePopup(cardAddModal);
+  }
+});
+
+imageModal.addEventListener("click", (e) => {
+  if (e.target === imageModal) {
+    closePopup(previewImageModal);
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closePopup(profileEditModal);
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closePopup(cardAddModal);
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closePopup(previewImageModal);
+  }
+});
 
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
