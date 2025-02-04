@@ -149,3 +149,21 @@
   line-height: 14.52px;
   color: #fff;
 }
+
+.modal__input_type_error {
+  border-color: #ff0000;
+}
+
+.modal__error_visible {
+  color: #ff0000;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.52px;
+  padding: 0;
+  margin: 0;
+}
+
+.modal__button_disabled {
+  background-image: url(../images/Submit-Button-inactive.svg);
+}
