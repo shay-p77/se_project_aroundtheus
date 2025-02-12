@@ -160,10 +160,19 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 14.52px;
-  padding: 0;
-  margin: 0;
+  position: relative;
+  bottom: 20px;
 }
 
 .modal__button_disabled {
-  background-image: url(../images/Submit-Button-inactive.svg);
+  opacity: 40%;
+}
+
+.modal__label {
+  position: relative;
+}
+
+.modal__error {
+  position: absolute;
+  bottom: -15px;
 }

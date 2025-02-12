@@ -30,9 +30,10 @@ function toggleButtonState(inputEls, submitButton, options) {
   if (foundInvalid) {
     submitButton.classList.add(options.inactiveButtonClass);
     submitButton.disabled = true;
+  } else {
+    submitButton.classList.remove(options.inactiveButtonClass);
+    submitButton.disabled = false;
   }
-  submitButton.classList.remove(options.inactiveButtonClass);
-  submitButton.disabled = false;
 }
 
 // disableButton function
@@ -41,7 +42,7 @@ function toggleButtonState(inputEls, submitButton, options) {
 function setEventListeners(formEl, options) {
   const { inputSelector } = options;
   const inputEls = [...formEl.querySelectorAll(inputSelector)];
-  const submitButton = formEl.querySelector(".modal__button");
+  const submitButton = formEl.querySelector(options.submitButtonSelector);
   inputEls.forEach((inputEl) => {
     inputEl.addEventListener("input", (e) => {
       checkInputValidity(formEl, inputEl, options);
@@ -81,3 +82,7 @@ const config = {
 };
 
 enableValidation(config);
+
+// TO DO
+
+// fix modal styles for error message

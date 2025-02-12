@@ -152,45 +152,41 @@ previewImageModalClose.addEventListener("click", (e) => {
   closePopup(previewImageModal);
 });
 
-const profileModal = document.querySelector("#profile-edit-modal");
-const cardModal = document.querySelector("#card-add-modal");
-const imageModal = document.querySelector("#js-preview-modal");
-
-profileModal.addEventListener("click", (e) => {
-  if (e.target === profileModal) {
+profileEditModal.addEventListener("click", (e) => {
+  if (e.target === profileEditModal) {
     closePopup(profileEditModal);
   }
 });
 
-cardModal.addEventListener("click", (e) => {
-  if (e.target === cardModal) {
+cardAddModal.addEventListener("click", (e) => {
+  if (e.target === cardAddModal) {
     closePopup(cardAddModal);
   }
 });
 
-imageModal.addEventListener("click", (e) => {
-  if (e.target === imageModal) {
+previewImageModal.addEventListener("click", (e) => {
+  if (e.target === previewImageModal) {
     closePopup(previewImageModal);
   }
 });
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closePopup(profileEditModal);
+const handleEscUp = (evt) => {
+  evt.preventDefault();
+  if (evt.key === "Escape") {
+    const activePopup = document.querySelector(".modal_open");
+    closePopup(activePopup);
   }
-});
+};
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closePopup(cardAddModal);
-  }
-});
+function closePopup(modal) {
+  modal.classList.remove("modal_open");
+  document.removeEventListener("keyup", handleEscUp);
+}
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closePopup(previewImageModal);
-  }
-});
+function openPopup(modal) {
+  modal.classList.add("modal_open");
+  document.addEventListener("keyup", handleEscUp);
+}
 
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);

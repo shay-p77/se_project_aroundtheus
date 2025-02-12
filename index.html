@@ -121,28 +121,33 @@
         ></button>
         <p class="modal__heading">Edit Profile</p>
         <form class="modal__form">
-          <input
-            class="modal__input"
-            id="profile-title-input"
-            type="text"
-            name="title"
-            placeholder="Name"
-            maxlength="40"
-            minlength="2"
-            required
-          />
-          <span class="modal__error" id="profile-title-input-error"></span>
-          <input
-            class="modal__input"
-            id="profile-subtitle-input"
-            type="text"
-            name="description"
-            placeholder="Description"
-            maxlength="200"
-            minlength="2"
-            required
-          />
-          <span class="modal__error" id="profile-subtitle-input-error"></span>
+          <label class="modal__label">
+            <input
+              class="modal__input"
+              id="profile-title-input"
+              type="text"
+              name="title"
+              placeholder="Name"
+              maxlength="40"
+              minlength="2"
+              required
+            />
+
+            <span class="modal__error" id="profile-title-input-error"></span>
+          </label>
+          <label class="modal__label">
+            <input
+              class="modal__input"
+              id="profile-subtitle-input"
+              type="text"
+              name="description"
+              placeholder="Description"
+              maxlength="200"
+              minlength="2"
+              required
+            />
+            <span class="modal__error" id="profile-subtitle-input-error"></span>
+          </label>
           <button class="modal__button" type="submit">Save</button>
         </form>
       </div>
@@ -157,26 +162,30 @@
         ></button>
         <p class="modal__heading">New Place</p>
         <form class="modal__form" id="card-add-form">
-          <input
-            class="modal__input"
-            id="card-title-input"
-            type="text"
-            name="title"
-            placeholder="Title"
-            maxlength="30"
-            minlength="1"
-            required
-          />
-          <span class="modal__error" id="card-title-input-error"></span>
-          <input
-            class="modal__input"
-            id="card-link-input"
-            type="url"
-            name="image-link"
-            placeholder="Image link"
-            required
-          />
-          <span class="modal__error" id="card-link-input-error"></span>
+          <label class="modal__label">
+            <input
+              class="modal__input"
+              id="card-title-input"
+              type="text"
+              name="title"
+              placeholder="Title"
+              maxlength="30"
+              minlength="1"
+              required
+            />
+            <span class="modal__error" id="card-title-input-error"></span>
+          </label>
+          <label class="modal__label">
+            <input
+              class="modal__input"
+              id="card-link-input"
+              type="url"
+              name="image-link"
+              placeholder="Image link"
+              required
+            />
+            <span class="modal__error" id="card-link-input-error"></span>
+          </label>
           <button class="modal__button" id="save-card" type="submit">
             Create
           </button>
