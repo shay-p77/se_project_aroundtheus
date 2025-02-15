@@ -70,13 +70,7 @@ const previewImageModalClose = document.querySelector("#image-modal-close");
 
 // functions
 
-function closePopup(modal) {
-  modal.classList.remove("modal_open");
-}
 
-function openPopup(modal) {
-  modal.classList.add("modal_open");
-}
 
 function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);

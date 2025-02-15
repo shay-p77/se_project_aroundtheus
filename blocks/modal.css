@@ -174,5 +174,5 @@
 
 .modal__error {
   position: absolute;
-  bottom: -15px;
+  top: 30px;
 }
