@@ -44,10 +44,34 @@ const cardListEl = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
+function closePopup(modal) {
+  modal.classList.remove("modal_open");
+  document.removeEventListener("keyup", handleEscUp);
+}
+
+function openPopup(modal) {
+  modal.classList.add("modal_open");
+  document.addEventListener("keyup", handleEscUp);
+}
+
+// image modal elements
+
+const previewImageModal = document.querySelector("#js-preview-modal");
+const previewImage = document.querySelector(".modal__preview-image");
+const previewImageTitle = document.querySelector("#modal-image-title");
+const previewImageModalClose = document.querySelector("#image-modal-close");
+
 initialCards.forEach((cardData) => {
-  const card = new Card(cardData, "#card-template");
+  const card = new Card(
+    cardData,
+    "#card-template",
+    openPopup,
+    previewImageModal,
+    previewImage,
+    previewImageTitle
+  );
   const cardElement = card.getView();
-  cardListEl.append(cardElement); // ✅ This should be the ONLY place adding cards at the start!
+  cardListEl.append(cardElement);
 });
 
 // Elements
@@ -74,13 +98,6 @@ const cardTitle = document.querySelector(".card__title");
 const cardImage = document.querySelector(".card__image");
 const cardAddForm = document.querySelector("#card-add-form");
 const saveCardButton = document.querySelector("#save-card");
-
-// image modal elements
-
-const previewImageModal = document.querySelector("#js-preview-modal");
-const previewImage = document.querySelector(".modal__preview-image");
-const previewIamgeTitle = document.querySelector("#modal-image-title");
-const previewImageModalClose = document.querySelector("#image-modal-close");
 
 // Validation
 
@@ -134,7 +151,15 @@ function getCardElement(cardData) {
 }
 
 function renderCard(cardData) {
-  const cardElement = getCardElement(cardData);
+  const card = new Card(
+    cardData,
+    "#card-template",
+    openPopup,
+    previewImageModal,
+    previewImage,
+    previewImageTitle
+  );
+  const cardElement = card.getView();
   cardListEl.prepend(cardElement);
 }
 
@@ -169,9 +194,13 @@ cardAddForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = cardTitleInput.value;
   const link = cardLinkInput.value;
-  renderCard({ name, link }, cardListEl);
+
+  renderCard({ name, link });
   e.target.reset();
   closePopup(cardAddModal);
+
+  saveCardButton.disabled = true;
+  saveCardButton.classList.add("modal__button_disabled");
 });
 
 previewImageModalClose.addEventListener("click", (e) => {
@@ -204,16 +233,6 @@ const handleEscUp = (evt) => {
     closePopup(activePopup);
   }
 };
-
-function closePopup(modal) {
-  modal.classList.remove("modal_open");
-  document.removeEventListener("keyup", handleEscUp);
-}
-
-function openPopup(modal) {
-  modal.classList.add("modal_open");
-  document.addEventListener("keyup", handleEscUp);
-}
 
 // initialCards.forEach((cardData) => {
 //   const cardElement = getCardElement(cardData);
