@@ -83,7 +83,3 @@ const config = {
 };
 
 enableValidation(config);
-
-// TO DO
-
-// fix modal styles for error message
