@@ -31,9 +31,9 @@ export default class FormValidator {
   }
 
   _showInputError(inputEl, errorMessageEl) {
-     inputEl.classList.add(this._inputErrorClass); 
-    errorMessageEl.textContent = inputEl.validationMessage; 
-    errorMessageEl.classList.add(this._errorClass); 
+    inputEl.classList.add(this._inputErrorClass);
+    errorMessageEl.textContent = inputEl.validationMessage;
+    errorMessageEl.classList.add(this._errorClass);
   }
 
   _setEventListeners() {
@@ -61,6 +61,18 @@ export default class FormValidator {
     inputEl.classList.remove(this._inputErrorClass);
     errorMessageEl.textContent = "";
     errorMessageEl.classList.remove(this._errorClass);
+  }
+
+  // Method to disable the submit button
+  disableSubmitButton() {
+    this._submitButton.disabled = true;
+    this._submitButton.classList.add(this._inactiveButtonClass);
+  }
+
+  // Method to enable the submit button
+  enableSubmitButton() {
+    this._submitButton.disabled = false;
+    this._submitButton.classList.remove(this._inactiveButtonClass);
   }
 }
 

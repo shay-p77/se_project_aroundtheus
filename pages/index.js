@@ -61,7 +61,7 @@ const previewImage = document.querySelector(".modal__preview-image");
 const previewImageTitle = document.querySelector("#modal-image-title");
 const previewImageModalClose = document.querySelector("#image-modal-close");
 
-initialCards.forEach((cardData) => {
+function createCard(cardData) {
   const card = new Card(
     cardData,
     "#card-template",
@@ -70,7 +70,11 @@ initialCards.forEach((cardData) => {
     previewImage,
     previewImageTitle
   );
-  const cardElement = card.getView();
+  return card.getView(); // Return the card element
+}
+
+initialCards.forEach((cardData) => {
+  const cardElement = createCard(cardData);
   cardListEl.append(cardElement);
 });
 
@@ -109,58 +113,47 @@ const validationSettings = {
   errorClass: "modal__error_visible",
 };
 
-const editFormElement = profileEditModal.querySelector(".modal__form");
-const addFormElement = cardAddModal.querySelector(".modal__form");
-
 const editFormValidator = new FormValidator(
   validationSettings,
-  editFormElement
+  profileEditForm
 );
 editFormValidator.enableValidation();
-const addFormValidator = new FormValidator(validationSettings, addFormElement);
+const addFormValidator = new FormValidator(validationSettings, cardAddForm);
 addFormValidator.enableValidation();
 
 // functions
 
-function getCardElement(cardData) {
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImageEl = cardElement.querySelector(".card__image");
-  const cardTitleEl = cardElement.querySelector(".card__title");
-  const likeButton = cardElement.querySelector(".card__like-button");
-  const deleteCardButton = cardElement.querySelector("#card-delete-button");
+// function getCardElement(cardData) {
+//   const cardElement = cardTemplate.cloneNode(true);
+//   const cardImageEl = cardElement.querySelector(".card__image");
+//   const cardTitleEl = cardElement.querySelector(".card__title");
+//   const likeButton = cardElement.querySelector(".card__like-button");
+//   const deleteCardButton = cardElement.querySelector("#card-delete-button");
 
-  // likeButton.addEventListener("click", () => {
-  //   likeButton.classList.toggle("card__like-button_active");
-  // });
+//   // likeButton.addEventListener("click", () => {
+//   //   likeButton.classList.toggle("card__like-button_active");
+//   // });
 
-  cardImageEl.addEventListener("click", function () {
-    openPopup(previewImageModal);
-    previewImage.src = cardData.link;
-    previewImage.alt = cardData.name;
-    previewIamgeTitle.textContent = cardData.name;
-  });
+//   cardImageEl.addEventListener("click", function () {
+//     openPopup(previewImageModal);
+//     previewImage.src = cardData.link;
+//     previewImage.alt = cardData.name;
+//     previewIamgeTitle.textContent = cardData.name;
+//   });
 
-  // deleteCardButton.addEventListener("click", () => {
-  //   cardElement.remove();
-  // });
+//   // deleteCardButton.addEventListener("click", () => {
+//   //   cardElement.remove();
+//   // });
 
-  cardTitleEl.textContent = cardData.name;
-  cardImageEl.src = cardData.link;
-  cardImageEl.alt = cardData.name;
-  return cardElement;
-}
+//   cardTitleEl.textContent = cardData.name;
+//   cardImageEl.src = cardData.link;
+//   cardImageEl.alt = cardData.name;
+//   return cardElement;
+// }
 
 function renderCard(cardData) {
-  const card = new Card(
-    cardData,
-    "#card-template",
-    openPopup,
-    previewImageModal,
-    previewImage,
-    previewImageTitle
-  );
-  const cardElement = card.getView();
-  cardListEl.prepend(cardElement);
+  const cardElement = createCard(cardData);
+  cardListEl.prepend(cardElement); // Add the new card to the top
 }
 
 // eventlisteners
@@ -199,8 +192,7 @@ cardAddForm.addEventListener("submit", (e) => {
   e.target.reset();
   closePopup(cardAddModal);
 
-  saveCardButton.disabled = true;
-  saveCardButton.classList.add("modal__button_disabled");
+  addFormValidator.disableSubmitButton();
 });
 
 previewImageModalClose.addEventListener("click", (e) => {
@@ -233,8 +225,3 @@ const handleEscUp = (evt) => {
     closePopup(activePopup);
   }
 };
-
-// initialCards.forEach((cardData) => {
-//   const cardElement = getCardElement(cardData);
-//   cardListEl.append(cardElement);
-// });
