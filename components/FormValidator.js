@@ -9,13 +9,13 @@ export default class FormValidator {
     this._form = formElement;
   }
 
-  _toggleButtonState(inputEls, submitButton) {
+  _toggleButtonState(inputEls) {
     let foundInvalid = inputEls.some((input) => !input.validity.valid);
 
     if (foundInvalid) {
-      this.disableSubmitButton(submitButton);
+      this.disableSubmitButton();
     } else {
-      this.enableSubmitButton(submitButton);
+      this.enableSubmitButton();
     }
   }
 
