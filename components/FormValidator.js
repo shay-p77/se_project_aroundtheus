@@ -13,11 +13,9 @@ export default class FormValidator {
     let foundInvalid = inputEls.some((input) => !input.validity.valid);
 
     if (foundInvalid) {
-      submitButton.classList.add(this._inactiveButtonClass);
-      submitButton.disabled = true;
+      this.disableSubmitButton(submitButton);
     } else {
-      submitButton.classList.remove(this._inactiveButtonClass);
-      submitButton.disabled = false;
+      this.enableSubmitButton(submitButton);
     }
   }
 
