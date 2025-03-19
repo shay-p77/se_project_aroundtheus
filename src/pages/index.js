@@ -1,3 +1,4 @@
+import "./index.css";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import UserInfo from "../components/UserInfo.js";
@@ -34,10 +35,10 @@ const initialCards = [
   },
 ];
 
-const cardData = {
-  name: " ",
-  link: " ",
-};
+// const cardData = {
+//   name: " ",
+//   link: " ",
+// };
 
 //userinfo
 
@@ -83,7 +84,7 @@ function createCard(cardData) {
     previewImageTitle,
     handleImageClick
   );
-  return card.getView(); // Return the card element
+  return card.getView();
 }
 
 initialCards.forEach((cardData) => {
@@ -138,7 +139,7 @@ addFormValidator.enableValidation();
 
 function renderCard(cardData) {
   const cardElement = createCard(cardData);
-  cardListEl.prepend(cardElement); // Add the new card to the top
+  cardListEl.prepend(cardElement);
 }
 
 // eventlisteners
@@ -168,8 +169,6 @@ profileEditForm.addEventListener("submit", (e) => {
     name: profileTitleInput.value,
     job: profileSubtitleInput.value,
   });
-  // profileTitle.textContent = profileTitleInput.value;
-  // profileSubtitle.textContent = profileSubtitleInput.value;
   closePopup(profileEditModal);
 });
 

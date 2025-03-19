@@ -6,19 +6,23 @@
     <meta content="ie=edge" http-equiv="X-UA-Compatible" />
     <title>Around the U.S</title>
     <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
-    <link href="./pages/index.css" rel="stylesheet" />
+    <!-- <link href="./pages/index.css" rel="stylesheet" />
     <link href="./vendor/normalize.css" rel="stylesheet" />
-    <link href="./vendor/fonts.css" rel="stylesheet" />
+    <link href="./vendor/fonts.css" rel="stylesheet" /> -->
   </head>
   <body class="page">
     <div class="page__content">
       <header class="header page__section">
-        <img src="./images/around-theus.svg" alt="logo" class="header__logo" />
+        <img
+          src="<%=require('./images/around-theus.svg')%>"
+          alt="logo"
+          class="header__logo"
+        />
       </header>
       <main class="content">
         <section class="profile page__section">
           <img
-            src="./images/Avatar.jpg"
+            src="<%=require('./images/Avatar.jpg')%>"
             alt="profile photo"
             class="profile__photo"
           />
@@ -222,6 +226,6 @@
       </li>
     </template>
 
-    <script src="../src/pages/index.js" type="module"></script>
+    <!-- <script src="../src/pages/index.js" type="module"></script> -->
   </body>
 </html>
