@@ -26,6 +26,8 @@
             alt="profile photo"
             class="profile__photo"
           />
+          <button class="modal__photo" type="button"></button>
+
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -42,75 +44,7 @@
           ></button>
         </section>
         <section class="cards page__section">
-          <ul class="cards__list">
-            <!-- <li class="card">
-              <img
-                src="./images/yosemite.jpg"
-                alt="yosemite"
-                class="card__image"
-              />
-              <div class="card__description">
-                <h2 class="card__title">Yosemite Valley</h2>
-                <button class="card__like-button" type="button"></button>
-              </div>
-            </li>
-
-            <li class="card">
-              <img
-                src="./images/lake-louise.jpg"
-                alt="lake-louise"
-                class="card__image"
-              />
-              <div class="card__description">
-                <h2 class="card__title">Lake Louise</h2>
-                <button class="card__like-button" type="button"></button>
-              </div>
-            </li>
-
-            <li class="card">
-              <img
-                src="./images/bald-mountains.jpg"
-                alt="bald-mountains"
-                class="card__image"
-              />
-              <div class="card__description">
-                <h2 class="card__title">Bald Mountains</h2>
-                <button class="card__like-button" type="button"></button>
-              </div>
-            </li>
-
-            <li class="card">
-              <img
-                src="./images/latemar.jpg"
-                alt="latemar"
-                class="card__image"
-              />
-              <div class="card__description">
-                <h2 class="card__title">Latemar</h2>
-                <button class="card__like-button" type="button"></button>
-              </div>
-            </li>
-
-            <li class="card">
-              <img
-                src="./images/vanoise.jpg"
-                alt="vanoise"
-                class="card__image"
-              />
-              <div class="card__description">
-                <h2 class="card__title">Vanoise National Park</h2>
-                <button class="card__like-button" type="button"></button>
-              </div>
-            </li>
-
-            <li class="card">
-              <img src="./images/lago.jpg" alt="lago" class="card__image" />
-              <div class="card__description">
-                <h2 class="card__title">Lago di Braies</h2>
-                <button class="card__like-button" type="button"></button>
-              </div>
-            </li> -->
-          </ul>
+          <ul class="cards__list"></ul>
         </section>
       </main>
 
@@ -153,6 +87,24 @@
               required
             />
             <span class="modal__error" id="profile-subtitle-input-error"></span>
+          </label>
+          <button class="modal__button" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-change-profile-picture">
+      <div class="modal__container">
+        <button class="modal__close" type="button"></button>
+        <p class="modal__heading">Change profile picture</p>
+        <form class="modal__form">
+          <label class="modal__label">
+            <input
+              type="url"
+              class="modal__input"
+              id="profile-picture-input"
+              name="profile-picture-link"
+            />
           </label>
           <button class="modal__button" type="submit">Save</button>
         </form>
@@ -208,6 +160,18 @@
         ></button>
         <img class="modal__preview-image" src="" alt="" />
         <p class="modal__preview-caption" id="modal-image-title"></p>
+      </div>
+    </div>
+
+    <div class="modal modal__delete-card"  id="delete-card-modal">
+      <div class="modal__container">
+        <button
+          class="modal__close"
+          id= "delete-modal-close"
+          type="button"
+        ></button>
+        <p class="modal__heading">Are you sure?</p>
+        <button class="modal__button"  id="confirm-delete-button" type="submit">Yes</button>
       </div>
     </div>
 

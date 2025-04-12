@@ -57,15 +57,25 @@ export const profileSubtitleInput = document.querySelector(
   "#profile-subtitle-input"
 );
 export const profileEditForm = profileEditModal.querySelector(".modal__form");
+export const profileAvatar = document.querySelector(".profile__photo");
+export const profileName = document.querySelector(".profile__title");
+export const profileSubtitle = document.querySelector(".profile__subtitle");
 
 // add card elements
 
 export const cardAddButton = document.querySelector(".profile__add-button");
 export const cardAddForm = document.querySelector("#card-add-form");
-
+export const deleteButton = document.querySelector("#card-delete-button");
 
 // image modal elements
 
 export const previewImageModal = document.querySelector("#js-preview-modal");
 export const previewImage = document.querySelector(".modal__preview-image");
 export const previewImageTitle = document.querySelector("#modal-image-title");
+
+// delete card modal
+
+export const deleteCardModal = document.querySelector("#delete-card-modal");
+export const confirmDeleteButton = document.querySelector(
+  "#confirm-delete-button"
+);

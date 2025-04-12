@@ -2,19 +2,15 @@ export default class Card {
   constructor(
     { name, link },
     cardSelector,
-    // openPopup,
-    // previewImageModal,
-    // previewImage,
-    // previewImageTitle,
-    handleImageClick
+    handleImageClick,
+    handleLike,
+    handleUnlike
   ) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
-    // this._openPopup = openPopup;
-    // this._previewImageModal = previewImageModal;
-    // this._previewImage = previewImage;
-    // this._previewImageTitle = previewImageTitle;
+    this._handleLike = handleLike;
+    this._handleUnlike = handleUnlike;
     this._handleImageClick = handleImageClick;
   }
 
@@ -33,8 +29,22 @@ export default class Card {
 
     // Like Button
     this._likeButton.addEventListener("click", () => {
-      this._likeButton.classList.toggle("card__like-button_active");
+      if (this._isLiked) {
+        this._handleUnlike(this._id);
+      } else {
+        this._handleLike(this._id);
+      }
     });
+
+    // updateLikes(cardData);
+    // {
+    //   this._isLiked = cardData.isLiked;
+    //   if (this._isLiked) {
+    //     this._likeButton.classList.add("card__like-button_active");
+    //   } else {
+    //     this._likeButton.classList.remove("card__like-button_active");
+    //   }
+    // }
 
     // Delete Button
     this._deleteButton.addEventListener("click", () => {
