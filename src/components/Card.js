@@ -1,17 +1,19 @@
 export default class Card {
   constructor(
-    { name, link },
+    // { name, link },
+    data,
     cardSelector,
     handleImageClick,
-    handleLike,
-    handleUnlike
+    handleDeleteClick
   ) {
-    this._name = name;
-    this._link = link;
+    this._data = data;
+    this._name = data.name;
+    this._link = data.link;
     this._cardSelector = cardSelector;
-    this._handleLike = handleLike;
-    this._handleUnlike = handleUnlike;
     this._handleImageClick = handleImageClick;
+    this._handleDeleteClick = handleDeleteClick;
+    this._id = data._id;
+    
   }
 
   _getTemplate() {
@@ -28,33 +30,46 @@ export default class Card {
     this._cardImage = this._cardElement.querySelector(".card__image");
 
     // Like Button
-    this._likeButton.addEventListener("click", () => {
-      if (this._isLiked) {
-        this._handleUnlike(this._id);
-      } else {
-        this._handleLike(this._id);
-      }
-    });
+    //  this._likeButton.addEventListener("click", () => {
+    //    if (this._isLiked) {
+    //      this._handleUnlike(this._id, this);
+    //    } else {
+    //      this._handleLike(this._id, this);
+    //    }
+    //  });
 
-    // updateLikes(cardData);
-    // {
-    //   this._isLiked = cardData.isLiked;
+    // liking cards
+
+    // updateLikes(likesArray);{
+    //   this._likes = likesArray;
+    //   this._isLiked = likesArray.some(user => user._id === this._userId); // <- more on this below
+    //   this._renderLikes();
+    // }
+
+    // _renderLikes(); {
     //   if (this._isLiked) {
     //     this._likeButton.classList.add("card__like-button_active");
     //   } else {
     //     this._likeButton.classList.remove("card__like-button_active");
     //   }
+    //   this._likeCount.textContent = this._likes.length;
     // }
 
     // Delete Button
-    this._deleteButton.addEventListener("click", () => {
-      this._cardElement.remove();
-    });
+    // this._deleteButton.addEventListener("click", () => {
+    //   this._cardElement.remove();
+    // });
 
     // Open Image Modal
 
     this._cardImage.addEventListener("click", () => {
       this._handleImageClick(this._name, this._link);
+    });
+
+    // delete modal
+
+    this._deleteButton.addEventListener("click", () => {
+      this._handleDeleteClick(this);
     });
   }
 
@@ -67,5 +82,14 @@ export default class Card {
 
     this._setEventListeners();
     return this._cardElement;
+  }
+
+  getId() {
+    return this._id;
+  }
+
+  removeCard() {
+    this._cardElement.remove();
+    this._cardElement = null;
   }
 }

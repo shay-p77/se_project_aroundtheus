@@ -30,13 +30,16 @@ class Api {
   }
 
   // Update avatar
-  updateUserAvatar({ avatar }) {
+  updateAvatar(avatarUrl) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify({ avatar }),
+      body: JSON.stringify({
+        avatar: avatarUrl,
+      }),
     }).then(this._checkResponse);
   }
+  
 
   // CARD ROUTES
 

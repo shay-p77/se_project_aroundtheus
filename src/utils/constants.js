@@ -79,3 +79,8 @@ export const deleteCardModal = document.querySelector("#delete-card-modal");
 export const confirmDeleteButton = document.querySelector(
   "#confirm-delete-button"
 );
+
+// profile pic edit elements
+
+export const avatarEditButton = document.querySelector(".modal__photo-button");
+export const avatarEditForm = document.querySelector("#avatar-form");

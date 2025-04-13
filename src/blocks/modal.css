@@ -119,8 +119,23 @@
 }
 
 .modal__delete-card {
-   
-}
+  
+ }
+
+  .modal__photo-button {
+  width: 26px;
+  height: 26px;
+  border: 1;
+  background-image: url(../images/edit-pic.svg);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 2px;
+  position: absolute;
+  } 
+
+ .modal__photo-button:hover {
+   }
 
 @media (max-width: 320px) {
   .modal__container {

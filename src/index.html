@@ -26,7 +26,7 @@
             alt="profile photo"
             class="profile__photo"
           />
-          <button class="modal__photo" type="button"></button>
+          <button class="modal__photo-button" type="button"></button>
 
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
@@ -97,15 +97,18 @@
       <div class="modal__container">
         <button class="modal__close" type="button"></button>
         <p class="modal__heading">Change profile picture</p>
-        <form class="modal__form">
+        <form class="modal__form" id="avatar-form">
           <label class="modal__label">
             <input
               type="url"
               class="modal__input"
               id="profile-picture-input"
               name="profile-picture-link"
+              placeholder="Image URL"
+              required
             />
           </label>
+          <span class="modal__input-error" id="avatar-link-error"></span>
           <button class="modal__button" type="submit">Save</button>
         </form>
       </div>
@@ -170,8 +173,10 @@
           id= "delete-modal-close"
           type="button"
         ></button>
-        <p class="modal__heading">Are you sure?</p>
-        <button class="modal__button"  id="confirm-delete-button" type="submit">Yes</button>
+        <form class="modal__form">
+          <p class="modal__heading">Are you sure?</p>
+          <button class="modal__button" id="confirm-delete-button" type="submit">Yes</button>
+        </form>
       </div>
     </div>
 

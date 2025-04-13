@@ -5,6 +5,7 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import {
   initialCards,
   validationSettings,
@@ -24,18 +25,21 @@ import {
   profileName,
   profileSubtitle,
   deleteCardModal,
-  confirmDeleteButton,
   deleteButton,
+  avatarEditButton,
+  avatarEditForm,
 } from "../utils/constants.js";
 import api from "../components/Api.js";
 
 // Select the DOM elements for user info
 
 // User info setup
-const userInfo = new UserInfo({
-  nameSelector: ".profile__title",
-  jobSelector: ".profile__subtitle",
-});
+//  const userInfo = new UserInfo({
+//   nameSelector: ".profile__title",
+// jobSelector: ".profile__subtitle",
+//  });
+
+
 
 const cardSection = new Section(
   {
@@ -77,26 +81,21 @@ function renderCard(cardData) {
   cardSection.addItem(cardElement);
 }
 
-function handleLike(cardId, cardInstance) {
-  api
-    .addLike(cardId)
-    .then((updatedCardData) => {
-      cardInstance.updateLikes(updatedCardData.likes);
-    })
-    .catch((err) => {
-      console.error("Error liking card:", err);
-    });
-}
+function handleDeleteClick(cardInstance) {
+  confirmDeletePopup.setSubmitAction(() => {
+    const cardId = cardInstance.getId();
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        cardInstance.removeCard();
+        confirmDeletePopup.close();
+      })
+      .catch((err) => {
+        console.error("Error deleting card:", err);
+      });
+  });
 
-function handleUnlike(cardId, cardInstance) {
-  api
-    .removeLike(cardId)
-    .then((updatedCardData) => {
-      cardInstance.updateLikes(updatedCardData.likes);
-    })
-    .catch((err) => {
-      console.error("Error unliking card:", err);
-    });
+  confirmDeletePopup.open();
 }
 
 // Function to create a new card
@@ -105,9 +104,8 @@ function createCard(cardData) {
     cardData,
     "#card-template",
     handleImageClick,
-    (cardId) => handleLike(cardId, card),
-    (cardId) => handleUnlike(cardId, card)
-  );
+    handleDeleteClick,
+   );
 
   const cardElement = card.getView();
   cardElement.setAttribute("data-id", cardData._id);
@@ -126,15 +124,14 @@ function handleImageClick(name, link) {
 
 // Popup handling
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
-  // Use formData to get the updated values
   const updatedName = formData["profile-title-input"];
   const updatedAbout = formData["profile-subtitle-input"];
 
-  // Send PATCH request to update profile
+  profilePopup.setLoadingText(true); // Show "Saving..."
+
   api
     .updateUserProfile(updatedName, updatedAbout)
     .then((updatedUserData) => {
-      // Update the profile data in the DOM
       userInfo.setUserInfo({
         name: updatedUserData.name,
         job: updatedUserData.about,
@@ -144,6 +141,28 @@ const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
     })
     .catch((err) => {
       console.error("Error updating profile:", err);
+    })
+    .finally(() => {
+      profilePopup.setLoadingText(false, "Save"); // Restore original text
+    });
+});
+
+const avatarPopup = new PopupWithForm("#modal-change-profile-picture", (formData) => {
+  const newAvatarLink = formData["profile-picture-link"]; // use your actual input name
+
+  avatarPopup.setLoadingText(true);
+
+  api
+    .updateUserAvatar(newAvatarLink)
+    .then((updatedUser) => {
+      profileAvatar.src = updatedUser.avatar;
+      avatarPopup.close();
+    })
+    .catch((err) => {
+      console.error("Error updating avatar:", err);
+    })
+    .finally(() => {
+      avatarPopup.setLoadingText(false, "Save");
     });
 });
 
@@ -151,18 +170,25 @@ const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
   const cardName = formData["card-title-input"];
   const cardLink = formData["card-link-input"];
 
-  // Create the card object to be sent to the server
   const cardData = {
     name: cardName,
     link: cardLink,
   };
 
-  // Add the new card to the server
-  addNewCard(cardData);
+  cardPopup.setLoadingText(true); // Show "Saving..."
 
-  // Disable the submit button and close the popup
-  addFormValidator.disableSubmitButton();
-  cardPopup.close();
+  api
+    .addCard(cardData)
+    .then((newCard) => {
+      renderCard(newCard);
+      cardPopup.close();
+    })
+    .catch((err) => {
+      console.error("Error adding card:", err);
+    })
+    .finally(() => {
+      cardPopup.setLoadingText(false, "Create");
+    });
 });
 
 profilePopup.setEventListeners();
@@ -217,67 +243,67 @@ function addNewCard(cardData) {
     });
 }
 
-let cardToDelete = null;
+const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
+confirmDeletePopup.setEventListeners();
 
-function handleDeleteClick(cardElement) {
-  cardToDelete = cardElement;
-  deleteCardModal.open();
-}
+// let cardToDelete = null;
 
-deleteButton.addEventListener("click", () => handleDeleteClick(cardElement));
+// function handleDeleteClick(cardElement) {
+//   cardToDelete = cardElement;
+//   deleteCardModal.open();
+// }
 
-function openDeleteCardModal(cardElement) {
-  cardToDelete = cardElement;
-  deleteCardModal.classList.add("modal_open");
-}
+// deleteButton.addEventListener("click", () => handleDeleteClick(cardElement));
 
-function closeDeleteCardModal() {
-  deleteCardModal.close();
-  cardToDelete = null; // Reset it just in case
-}
+// function openDeleteCardModal(cardElement) {
+//   cardToDelete = cardElement;
+//   deleteCardModal.classList.add("modal_open");
+// }
 
-const deleteModalCloseButton = deleteCardModal.querySelector(
-  "#delete-modal-close"
-);
+// function closeDeleteCardModal() {
+//   deleteCardModal.close();
+//   cardToDelete = null; // Reset it just in case
+// }
 
-// Confirm deletion of the card
-confirmDeleteButton.addEventListener("click", () => {
-  if (cardToDelete) {
-    const cardId = cardToDelete.getAttribute("data-id");
+// const deleteModalCloseButton = deleteCardModal.querySelector(
+//   "#delete-modal-close"
+// );
 
-    api
-      .deleteCard(cardId)
-      .then(() => {
-        console.log(`Card with ID ${cardId} deleted`);
-        cardToDelete.remove();
-        closeDeleteCardModal();
-        cardToDelete = null;
-      })
-      .catch((err) => {
-        console.error("Error deleting card:", err);
-        closeDeleteCardModal();
-      });
-  }
-});
+// // Confirm deletion of the card
+// confirmDeleteButton.addEventListener("click", () => {
+//   if (cardToDelete) {
+//     const cardId = cardToDelete.getAttribute("data-id");
 
-deleteModalCloseButton.addEventListener("click", closeDeleteCardModal);
+//     api
+//       .deleteCard(cardId)
+//       .then(() => {
+//         console.log(`Card with ID ${cardId} deleted`);
+//         cardToDelete.remove();
+//         closeDeleteCardModal();
+//         cardToDelete = null;
+//       })
+//       .catch((err) => {
+//         console.error("Error deleting card:", err);
+//         closeDeleteCardModal();
+//       });
+//   }
+// });
+
+// deleteModalCloseButton.addEventListener("click", closeDeleteCardModal);
 
 // TO FIX
 
-// profile contents...
-
-// extra weird card
+// profile contents edit button stopped working
 
 // delete modal css
+ 
+// fix profile photo edit css and make the modal open
 
-// fix delete modal to close
+// fix validation for profile photo modal
 
-// fix delete modal cuz card deletes first
+// delete modal only deletes new cards
 
 // TO DO
 
 // 7. Adding and removing likes
 
-// 8.  Updating profile picture
-
-// 9.  Improving UX of all forms
