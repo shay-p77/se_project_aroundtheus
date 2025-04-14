@@ -7,8 +7,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import {
-  initialCards,
-  validationSettings,
+   validationSettings,
   cardListEl,
   cardTemplate,
   profileEditButton,
@@ -28,22 +27,38 @@ import {
   deleteButton,
   avatarEditButton,
   avatarEditForm,
+  initialCards,
 } from "../utils/constants.js";
 import api from "../components/Api.js";
 
 // Select the DOM elements for user info
 
 // User info setup
-//  const userInfo = new UserInfo({
-//   nameSelector: ".profile__title",
-// jobSelector: ".profile__subtitle",
-//  });
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  jobSelector: ".profile__subtitle",
+});
 
-
+// api
+//   .getInitialCards()
+//   .then((cards) => {
+//     const cardSection = new Section(
+//       {
+//         items: cards,
+//         renderer: (cardData) => {
+//           const cardElement = createCard(cardData);
+//           cardSection.addItem(cardElement);
+//         },
+//       },
+//       ".cards__list"
+//     );
+//     cardSection.renderItems();
+//   })
+//   .catch((err) => console.error("Error loading cards:", err));
 
 const cardSection = new Section(
   {
-    items: initialCards,
+    items: [],
     renderer: (cardData) => {
       const cardElement = createCard(cardData);
       cardSection.addItem(cardElement);
@@ -63,13 +78,9 @@ api
       job: userData.about, // 'about' from user data
     });
 
-    // Update profile avatar
     profileAvatar.src = userData.avatar;
 
-    // Render cards
-    cards.forEach((cardData) => {
-      renderCard(cardData); // Render each card
-    });
+    cardSection.renderItems(cards); // Use the Section method properly
   })
   .catch((err) => {
     console.error("Error loading app data:", err);
@@ -104,8 +115,8 @@ function createCard(cardData) {
     cardData,
     "#card-template",
     handleImageClick,
-    handleDeleteClick,
-   );
+    handleDeleteClick
+  );
 
   const cardElement = card.getView();
   cardElement.setAttribute("data-id", cardData._id);
@@ -147,24 +158,27 @@ const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
     });
 });
 
-const avatarPopup = new PopupWithForm("#modal-change-profile-picture", (formData) => {
-  const newAvatarLink = formData["profile-picture-link"]; // use your actual input name
+const avatarPopup = new PopupWithForm(
+  "#modal-change-profile-picture",
+  (formData) => {
+    const newAvatarLink = formData["profile-picture-link"]; // use your actual input name
 
-  avatarPopup.setLoadingText(true);
+    avatarPopup.setLoadingText(true);
 
-  api
-    .updateUserAvatar(newAvatarLink)
-    .then((updatedUser) => {
-      profileAvatar.src = updatedUser.avatar;
-      avatarPopup.close();
-    })
-    .catch((err) => {
-      console.error("Error updating avatar:", err);
-    })
-    .finally(() => {
-      avatarPopup.setLoadingText(false, "Save");
-    });
-});
+    api
+      .updateUserAvatar(newAvatarLink)
+      .then((updatedUser) => {
+        profileAvatar.src = updatedUser.avatar;
+        avatarPopup.close();
+      })
+      .catch((err) => {
+        console.error("Error updating avatar:", err);
+      })
+      .finally(() => {
+        avatarPopup.setLoadingText(false, "Save");
+      });
+  }
+);
 
 const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
   const cardName = formData["card-title-input"];
@@ -296,7 +310,7 @@ confirmDeletePopup.setEventListeners();
 // profile contents edit button stopped working
 
 // delete modal css
- 
+
 // fix profile photo edit css and make the modal open
 
 // fix validation for profile photo modal
@@ -306,4 +320,3 @@ confirmDeletePopup.setEventListeners();
 // TO DO
 
 // 7. Adding and removing likes
-
