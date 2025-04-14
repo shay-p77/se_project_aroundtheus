@@ -5,7 +5,8 @@ export default class Card {
     cardSelector,
     handleImageClick,
     handleDeleteClick,
-    handleCardLike
+    handleCardLike,
+    userId
   ) {
     this._data = data;
     this._name = data.name;
@@ -13,9 +14,10 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleDeleteClick = handleDeleteClick;
-    this._id = data._id;
     this._handleCardLike = handleCardLike;
-    this.isLiked = data.isLiked;
+    this._userId = userId;
+    this._id = data._id;
+    this._likes = data.likes || [];
   }
 
   _getTemplate() {
@@ -26,41 +28,32 @@ export default class Card {
     return cardElement;
   }
 
+  isLikedByUser() {
+    return (this._likes || []).some((user) => user._id === this._userId);
+  }
+
+  _renderLikes() {
+    if (this.isLikedByUser()) {
+      this._likeButton.classList.add("card__like-button_active");
+    } else {
+      this._likeButton.classList.remove("card__like-button_active");
+    }
+  }
+
+  setLikes(newLikes) {
+    this._likes = newLikes || [];
+    this._renderLikes();
+  }
+
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
     this._deleteButton = this._cardElement.querySelector("#card-delete-button");
     this._cardImage = this._cardElement.querySelector(".card__image");
 
-    // Like Button
-    //  this._likeButton.addEventListener("click", () => {
-    //    if (this._isLiked) {
-    //      this._handleUnlike(this._id, this);
-    //    } else {
-    //      this._handleLike(this._id, this);
-    //    }
-    //  });
-
-    // liking cards
-
-    // updateLikes(likesArray);{
-    //   this._likes = likesArray;
-    //   this._isLiked = likesArray.some(user => user._id === this._userId); // <- more on this below
-    //   this._renderLikes();
-    // }
-
-    // _renderLikes(); {
-    //   if (this._isLiked) {
-    //     this._likeButton.classList.add("card__like-button_active");
-    //   } else {
-    //     this._likeButton.classList.remove("card__like-button_active");
-    //   }
-    //   this._likeCount.textContent = this._likes.length;
-    // }
-
-    // Delete Button
-    // this._deleteButton.addEventListener("click", () => {
-    //   this._cardElement.remove();
-    // });
+    // Like button click
+    this._likeButton.addEventListener("click", () => {
+      this._handleCardLike(this);
+    });
 
     // Open Image Modal
 
@@ -82,6 +75,8 @@ export default class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
 
+    this._likeButton = this._cardElement.querySelector(".card__like-button");
+    this._renderLikes();
     this._setEventListeners();
     return this._cardElement;
   }

@@ -87,7 +87,7 @@ class Api {
         method: "PUT",
         headers: this._headers,
       }
-    ).then(this._checkResponse);
+    ).then(this._handleResponse);
   }
 
   unlikeCard(cardId) {
@@ -97,7 +97,7 @@ class Api {
         method: "DELETE",
         headers: this._headers,
       }
-    ).then(this._checkResponse);
+    ).then(this._handleResponse);
   }
 
   // Add this method to the Api class

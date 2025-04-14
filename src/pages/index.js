@@ -32,7 +32,6 @@ import {
 } from "../utils/constants.js";
 import api from "../components/Api.js";
 
- 
 // User info setup
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
@@ -49,21 +48,23 @@ const cardSection = new Section(
   },
   ".cards__list"
 );
-cardSection.renderItems();
-
+// cardSection.renderItems();
+let currentUserId;
 // Fetch user info and cards from the API
 api
   .getAppData()
   .then(([userData, cards]) => {
+    currentUserId = userData._id;
+
     // Update user info in the DOM
     userInfo.setUserInfo({
       name: userData.name,
-      job: userData.about,  
+      job: userData.about,
     });
 
     profileAvatar.src = userData.avatar;
 
-    cardSection.renderItems(cards);  
+    cardSection.renderItems(cards);
   })
   .catch((err) => {
     console.error("Error loading app data:", err);
@@ -93,16 +94,21 @@ function handleDeleteClick(cardInstance) {
 }
 
 function handleCardLike(card) {
-  const request = card.isLiked() ? api.unlikeCard : api.likeCard;
+  const isLiked = card.isLikedByUser();
+  const cardId = card.getId();
 
-  request(card.getId())
-    .then((updatedCardData) => {
-      card.setLikes(updatedCardData.likes);
+  const likeRequest = isLiked ? api.unlikeCard(cardId) : api.likeCard(cardId);
+
+  likeRequest
+    .then((updatedCard) => {
+      card.setLikes(updatedCard.likes);
     })
     .catch((err) => {
       console.error("Error updating like status:", err);
     });
 }
+
+
 
 // Function to create a new card
 function createCard(cardData) {
@@ -111,13 +117,13 @@ function createCard(cardData) {
     "#card-template",
     handleImageClick,
     handleDeleteClick,
-    handleCardLike
-  );
+    handleCardLike,
+    currentUserId   );
 
   const cardElement = card.getView();
   cardElement.setAttribute("data-id", cardData._id);
 
-  return card.getView();
+  return cardElement;
 }
 
 // Function to handle image clicks and open the preview
@@ -146,7 +152,7 @@ const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
       console.error("Error updating profile:", err);
     })
     .finally(() => {
-      profilePopup.setLoadingText(false, "Save");  
+      profilePopup.setLoadingText(false, "Save");
     });
 });
 
@@ -176,6 +182,7 @@ const avatarPopup = new PopupWithForm(
 avatarPopup.setEventListeners();
 
 avatarEditButton.addEventListener("click", () => {
+  avatarFormValidator.disableSubmitButton();
   avatarPopup.open();
 });
 
@@ -188,7 +195,7 @@ const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
     link: cardLink,
   };
 
-  cardPopup.setLoadingText(true);  
+  cardPopup.setLoadingText(true);
 
   api
     .addCard(cardData)
@@ -236,6 +243,7 @@ profileEditButton.addEventListener("click", () => {
 });
 
 cardAddButton.addEventListener("click", () => {
+  addFormValidator.disableSubmitButton();
   cardPopup.open();
 });
 
@@ -267,3 +275,7 @@ const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
 confirmDeletePopup.setEventListeners();
 
 // TO FIX
+
+// likes dont work
+
+// reload --> all cards disappear
