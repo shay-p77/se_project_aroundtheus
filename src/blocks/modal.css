@@ -35,6 +35,11 @@
   width: 100%;
 }
 
+.modal__container-delete {
+  width: 430px;
+  height: 181px;
+}
+
 .modal__close {
   background-image: url(../images/close-icon.svg);
   background-repeat: no-repeat;
@@ -104,7 +109,7 @@
 .modal__photo {
   background-image: url(../images/edit-pic.svg);
   position: absolute;
-   right: -47;
+  right: -47;
   width: 26px;
   height: 26px;
   background-repeat: no-repeat;
@@ -112,30 +117,14 @@
   border: 2px;
   background-color: transparent;
   visibility: hidden;
- }
+}
 
 .modal__photo:hover {
   opacity: 50%;
 }
 
 .modal__delete-card {
-  
- }
-
-  .modal__photo-button {
-  width: 26px;
-  height: 26px;
-  border: 1;
-  background-image: url(../images/edit-pic.svg);
-  background-color: transparent;
-  background-repeat: no-repeat;
-  background-size: contain;
-  border: 2px;
-  position: absolute;
-  } 
-
- .modal__photo-button:hover {
-   }
+}
 
 @media (max-width: 320px) {
   .modal__container {
@@ -152,6 +141,8 @@
     line-height: 17px;
     margin-top: 15px;
   }
+
+   
 
   .modal__close {
     left: 250px;

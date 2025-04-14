@@ -5,7 +5,7 @@ export default class PopupWithConfirmation extends Popup {
     super(popupSelector);
     this._popup = document.querySelector(popupSelector);
     this._form = this._popupElement.querySelector(".modal__form");
-     this._submitButton = this._popup.querySelector("#confirm-delete-button");
+    this._submitButton = this._popup.querySelector("#confirm-delete-button");
   }
   setSubmitAction(action) {
     this._handleSubmit = action;
@@ -15,14 +15,14 @@ export default class PopupWithConfirmation extends Popup {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._handleSubmit(); // Call the function you set with setSubmitAction
+      this._handleSubmit();
     });
 
     this._submitButton.addEventListener("click", (evt) => {
       evt.preventDefault();
-       if (this._handleSubmit) {
+      if (this._handleSubmit) {
         this._handleSubmit();
-       }
+      }
       this._cardElement.remove();
     });
   }

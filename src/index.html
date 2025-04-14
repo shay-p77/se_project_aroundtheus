@@ -21,13 +21,14 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/Avatar.jpg')%>"
-            alt="profile photo"
-            class="profile__photo"
-          />
-          <button class="modal__photo-button" type="button"></button>
-
+          <div class="profile__photo-container">
+            <img
+              src="<%=require('./images/Avatar.jpg')%>"
+              alt="profile photo"
+              class="profile__photo"
+            />
+            <button class="profile__photo-button" type="button"></button>
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -107,8 +108,9 @@
               placeholder="Image URL"
               required
             />
+            <span class="modal__error" id="profile-picture-input-error"></span>
           </label>
-          <span class="modal__input-error" id="avatar-link-error"></span>
+
           <button class="modal__button" type="submit">Save</button>
         </form>
       </div>
@@ -166,16 +168,22 @@
       </div>
     </div>
 
-    <div class="modal modal__delete-card"  id="delete-card-modal">
-      <div class="modal__container">
+    <div class="modal modal__delete-card" id="delete-card-modal">
+      <div class="modal__container modal__container-delete">
         <button
           class="modal__close"
-          id= "delete-modal-close"
+          id="delete-modal-close"
           type="button"
         ></button>
         <form class="modal__form">
           <p class="modal__heading">Are you sure?</p>
-          <button class="modal__button" id="confirm-delete-button" type="submit">Yes</button>
+          <button
+            class="modal__button"
+            id="confirm-delete-button"
+            type="submit"
+          >
+            Yes
+          </button>
         </form>
       </div>
     </div>

@@ -82,5 +82,8 @@ export const confirmDeleteButton = document.querySelector(
 
 // profile pic edit elements
 
-export const avatarEditButton = document.querySelector(".modal__photo-button");
+export const avatarEditButton = document.querySelector(
+  ".profile__photo-button"
+);
 export const avatarEditForm = document.querySelector("#avatar-form");
+export const avatarProfile = document.querySelector(".profile__photo");
