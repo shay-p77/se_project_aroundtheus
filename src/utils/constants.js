@@ -66,6 +66,7 @@ export const profileSubtitle = document.querySelector(".profile__subtitle");
 export const cardAddButton = document.querySelector(".profile__add-button");
 export const cardAddForm = document.querySelector("#card-add-form");
 export const deleteButton = document.querySelector("#card-delete-button");
+export const cardLikeButton = document.querySelector(".card__like-button");
 
 // image modal elements
 

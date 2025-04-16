@@ -29,6 +29,7 @@ import {
   avatarEditForm,
   initialCards,
   avatarProfile,
+  cardLikeButton,
 } from "../utils/constants.js";
 import api from "../components/Api.js";
 
@@ -94,20 +95,19 @@ function handleDeleteClick(cardInstance) {
 }
 
 function handleCardLike(card) {
-  const isLiked = card.isLikedByUser();
+  const isLiked = card.isLiked;
   const cardId = card.getId();
 
   const likeRequest = isLiked ? api.unlikeCard(cardId) : api.likeCard(cardId);
 
   likeRequest
     .then((updatedCard) => {
-      card.setLikes(updatedCard.likes);
+      card.setLikes(updatedCard.isLiked); // just the boolean
     })
     .catch((err) => {
       console.error("Error updating like status:", err);
     });
 }
-
 
 
 // Function to create a new card
@@ -118,7 +118,8 @@ function createCard(cardData) {
     handleImageClick,
     handleDeleteClick,
     handleCardLike,
-    currentUserId   );
+    currentUserId
+  );
 
   const cardElement = card.getView();
   cardElement.setAttribute("data-id", cardData._id);

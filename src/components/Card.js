@@ -17,7 +17,7 @@ export default class Card {
     this._handleCardLike = handleCardLike;
     this._userId = userId;
     this._id = data._id;
-    this._likes = data.likes || [];
+    this.isLiked = data.isLiked;
   }
 
   _getTemplate() {
@@ -27,23 +27,22 @@ export default class Card {
       .cloneNode(true);
     return cardElement;
   }
-
-  isLikedByUser() {
-    return (this._likes || []).some((user) => user._id === this._userId);
-  }
+ 
 
   _renderLikes() {
-    if (this.isLikedByUser()) {
+    if (this.isLiked) {
       this._likeButton.classList.add("card__like-button_active");
     } else {
       this._likeButton.classList.remove("card__like-button_active");
     }
   }
+  
 
-  setLikes(newLikes) {
-    this._likes = newLikes || [];
+  setLikes(isLiked) {
+    this.isLiked = isLiked;
     this._renderLikes();
   }
+  
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
