@@ -71,14 +71,14 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
-    }).then(this._handleResponse);
+    }).then(this._checkResponse);
   }
 
   unlikeCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._handleResponse);
+    }).then(this._checkResponse);
   }
 
   // Add this method to the Api class
@@ -96,7 +96,7 @@ class Api {
         name: name,
         about: about,
       }),
-    }).then(this._handleResponse);
+    }).then(this._checkResponse);
   }
 }
 

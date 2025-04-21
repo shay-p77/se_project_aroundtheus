@@ -29,17 +29,38 @@ export default class PopupWithForm extends Popup {
     }
   }
 
+  // setEventListeners() {
+  //   super.setEventListeners();
+  //   this._popupForm.addEventListener("submit", (event) => {
+  //     event.preventDefault();
+  //     this._handleFormSubmit(this._getInputValues());
+  //     then(() => {
+  //       this.close();
+  //       this._popupForm.reset();
+  //     }).catch((err) => {
+  //       console.error("Error during form submission:", err);
+  //     });
+  //   });
+  // }
+
   setEventListeners() {
     super.setEventListeners();
     this._popupForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      this._handleFormSubmit(this._getInputValues());
-      then(() => {
-        this.close();
-        this._popupForm.reset();
-      }).catch((err) => {
-        console.error("Error during form submission:", err);
-      });
+
+      const maybePromise = this._handleFormSubmit(this._getInputValues());
+
+      // Only handle `.then` if it's a real Promise
+      if (maybePromise && typeof maybePromise.then === "function") {
+        maybePromise
+          .then(() => {
+            this.close();
+            this._popupForm.reset();
+          })
+          .catch((err) => {
+            console.error("Error during form submission:", err);
+          });
+      }
     });
   }
 }

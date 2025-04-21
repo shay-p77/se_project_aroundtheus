@@ -97,7 +97,7 @@ function handleCardLike(card) {
   const isLiked = card.isLiked;
   const cardId = card.getId();
 
-  card.setLikes(!isLiked);
+  // card.setLikes(!isLiked);
 
   const likeRequest = isLiked ? api.unlikeCard(cardId) : api.likeCard(cardId);
 
@@ -147,7 +147,6 @@ const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
         name: updatedUserData.name,
         job: updatedUserData.about,
       });
-      //  userInfo.setUserAvatar(updatedUserData.avatar);
       profilePopup.close();
     })
     .catch((err) => {
@@ -254,9 +253,5 @@ confirmDeletePopup.setEventListeners();
 
 // TO FIX
 
-// likes dont work
-
 //      profileAvatar.src = userData.avatar;
 // Only methods of UserInfo should set/get the profile data (including the avatar)
-
-// profile only updates after reload
