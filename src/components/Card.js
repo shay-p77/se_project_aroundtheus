@@ -27,7 +27,6 @@ export default class Card {
       .cloneNode(true);
     return cardElement;
   }
- 
 
   _renderLikes() {
     if (this.isLiked) {
@@ -36,13 +35,11 @@ export default class Card {
       this._likeButton.classList.remove("card__like-button_active");
     }
   }
-  
 
   setLikes(isLiked) {
     this.isLiked = isLiked;
     this._renderLikes();
   }
-  
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");

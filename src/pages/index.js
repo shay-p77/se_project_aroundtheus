@@ -37,14 +37,14 @@ import api from "../components/Api.js";
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   jobSelector: ".profile__subtitle",
+  avatarSelector: ".profile__photo",
 });
 
 const cardSection = new Section(
   {
     items: [],
     renderer: (cardData) => {
-      const cardElement = createCard(cardData);
-      cardSection.addItem(cardElement);
+      renderCard(cardData);
     },
   },
   ".cards__list"
@@ -63,8 +63,7 @@ api
       job: userData.about,
     });
 
-    profileAvatar.src = userData.avatar;
-
+    userInfo.setUserAvatar(userData.avatar);
     cardSection.renderItems(cards);
   })
   .catch((err) => {
@@ -98,17 +97,19 @@ function handleCardLike(card) {
   const isLiked = card.isLiked;
   const cardId = card.getId();
 
+  card.setLikes(!isLiked);
+
   const likeRequest = isLiked ? api.unlikeCard(cardId) : api.likeCard(cardId);
 
   likeRequest
     .then((updatedCard) => {
-      card.setLikes(updatedCard.isLiked); // just the boolean
+      card.setLikes(updatedCard.isLiked);
     })
     .catch((err) => {
       console.error("Error updating like status:", err);
+      card.setLikes(isLiked);
     });
 }
-
 
 // Function to create a new card
 function createCard(cardData) {
@@ -146,7 +147,7 @@ const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
         name: updatedUserData.name,
         job: updatedUserData.about,
       });
-      profileAvatar.src = updatedUserData.avatar;
+      //  userInfo.setUserAvatar(updatedUserData.avatar);
       profilePopup.close();
     })
     .catch((err) => {
@@ -169,7 +170,7 @@ const avatarPopup = new PopupWithForm(
     api
       .updateAvatar(newAvatarLink)
       .then((updatedUser) => {
-        avatarProfile.src = updatedUser.avatar;
+        userInfo.setUserAvatar(updatedUser.avatar);
         avatarPopup.close();
       })
       .catch((err) => {
@@ -248,30 +249,6 @@ cardAddButton.addEventListener("click", () => {
   cardPopup.open();
 });
 
-// Function to add a new card
-function addNewCard(cardData) {
-  fetch("https://around-api.en.tripleten-services.com/v1/cards", {
-    method: "POST",
-    headers: {
-      authorization: "a2a2c423-7cb0-4ced-94a4-b5c16324eb7c",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: cardData.name,
-      link: cardData.link,
-    }),
-  })
-    .then((response) => response.json())
-    .then((newCard) => {
-      console.log("New card added:", newCard);
-      // Render the new card on the page
-      renderCard(newCard);
-    })
-    .catch((err) => {
-      console.error("Error adding new card:", err);
-    });
-}
-
 const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
 confirmDeletePopup.setEventListeners();
 
@@ -279,4 +256,7 @@ confirmDeletePopup.setEventListeners();
 
 // likes dont work
 
-// reload --> all cards disappear
+//      profileAvatar.src = userData.avatar;
+// Only methods of UserInfo should set/get the profile data (including the avatar)
+
+// profile only updates after reload

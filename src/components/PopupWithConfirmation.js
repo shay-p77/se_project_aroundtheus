@@ -20,11 +20,11 @@ export default class PopupWithConfirmation extends Popup {
       }
     });
 
-    this._submitButton.addEventListener("click", (evt) => {
-      evt.preventDefault();
-      if (this._handleSubmit) {
-        this._handleSubmit();
-      }
-    });
+    // this._submitButton.addEventListener("click", (evt) => {
+    //   evt.preventDefault();
+    //   if (this._handleSubmit) {
+    //     this._handleSubmit();
+    //   }
+    // });
   }
 }

@@ -20,7 +20,7 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, "dist"),
     compress: true,
-    port: 3006,
+    port: 3007,
     open: true,
     liveReload: true,
     hot: false,

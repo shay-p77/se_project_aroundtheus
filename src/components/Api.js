@@ -60,44 +60,25 @@ class Api {
 
   // Delete a card
   deleteCard(cardId) {
-    return fetch(
-      `https://around-api.en.tripleten-services.com/v1/cards/${cardId}`,
-      {
-        method: "DELETE",
-        headers: {
-          authorization: "a2a2c423-7cb0-4ced-94a4-b5c16324eb7c",
-        },
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to delete card");
-        }
-        return response.json();
-      })
-      .catch((err) => {
-        console.error("Error deleting card:", err);
-        throw err;
-      });
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then(this._checkResponse);
   }
+  // Like a card
+
   likeCard(cardId) {
-    return fetch(
-      `https://around-api.en.tripleten-services.com/v1/cards/${cardId}/likes`,
-      {
-        method: "PUT",
-        headers: this._headers,
-      }
-    ).then(this._handleResponse);
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    }).then(this._handleResponse);
   }
 
   unlikeCard(cardId) {
-    return fetch(
-      `https://around-api.en.tripleten-services.com/v1/cards/${cardId}/likes`,
-      {
-        method: "DELETE",
-        headers: this._headers,
-      }
-    ).then(this._handleResponse);
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this._headers,
+    }).then(this._handleResponse);
   }
 
   // Add this method to the Api class
@@ -106,26 +87,16 @@ class Api {
   }
 
   updateUserProfile(name, about) {
-    return fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: "a2a2c423-7cb0-4ced-94a4-b5c16324eb7c", // Replace with dynamic token if needed
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
+      "Content-Type": "application/json",
+
       body: JSON.stringify({
         name: name,
         about: about,
       }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Error: ${res.status}`);
-      })
-      .catch((err) => {
-        console.error("Error updating profile:", err);
-      });
+    }).then(this._handleResponse);
   }
 }
 

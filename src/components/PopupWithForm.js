@@ -17,9 +17,9 @@ export default class PopupWithForm extends Popup {
     return formData;
   }
 
-  close() {
-    super.close();
-  }
+  // close() {
+  //   super.close();
+  // }
 
   setLoadingText(isLoading, defaultText = "Save") {
     if (isLoading) {
@@ -34,8 +34,12 @@ export default class PopupWithForm extends Popup {
     this._popupForm.addEventListener("submit", (event) => {
       event.preventDefault();
       this._handleFormSubmit(this._getInputValues());
-      this.close();
-      this._popupForm.reset();
+      then(() => {
+        this.close();
+        this._popupForm.reset();
+      }).catch((err) => {
+        console.error("Error during form submission:", err);
+      });
     });
   }
 }
