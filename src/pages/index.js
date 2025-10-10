@@ -171,6 +171,8 @@ const avatarPopup = new PopupWithForm(
       .then((updatedUser) => {
         userInfo.setUserAvatar(updatedUser.avatar);
         avatarPopup.close();
+        avatarEditForm.reset();
+
       })
       .catch((err) => {
         console.error("Error updating avatar:", err);
@@ -203,6 +205,7 @@ const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
     .then((newCard) => {
       renderCard(newCard);
       cardPopup.close();
+      cardAddForm.reset();
     })
     .catch((err) => {
       console.error("Error adding card:", err);

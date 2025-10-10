@@ -17,10 +17,6 @@ export default class PopupWithForm extends Popup {
     return formData;
   }
 
-  // close() {
-  //   super.close();
-  // }
-
   setLoadingText(isLoading, defaultText = "Save") {
     if (isLoading) {
       this._submitButton.textContent = "Saving...";
@@ -29,20 +25,6 @@ export default class PopupWithForm extends Popup {
     }
   }
 
-  // setEventListeners() {
-  //   super.setEventListeners();
-  //   this._popupForm.addEventListener("submit", (event) => {
-  //     event.preventDefault();
-  //     this._handleFormSubmit(this._getInputValues());
-  //     then(() => {
-  //       this.close();
-  //       this._popupForm.reset();
-  //     }).catch((err) => {
-  //       console.error("Error during form submission:", err);
-  //     });
-  //   });
-  // }
-
   setEventListeners() {
     super.setEventListeners();
     this._popupForm.addEventListener("submit", (event) => {
@@ -50,12 +32,11 @@ export default class PopupWithForm extends Popup {
 
       const maybePromise = this._handleFormSubmit(this._getInputValues());
 
-      // Only handle `.then` if it's a real Promise
       if (maybePromise && typeof maybePromise.then === "function") {
         maybePromise
           .then(() => {
             this.close();
-            this._popupForm.reset();
+           // this._popupForm.reset();
           })
           .catch((err) => {
             console.error("Error during form submission:", err);
