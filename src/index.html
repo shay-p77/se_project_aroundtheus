@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="ie=edge" http-equiv="X-UA-Compatible" />
     <title>Around the U.S</title>
-    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon" />
-    <!-- <link href="./pages/index.css" rel="stylesheet" />
-    <link href="./vendor/normalize.css" rel="stylesheet" />
-    <link href="./vendor/fonts.css" rel="stylesheet" /> -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="index.css" />
   </head>
   <body class="page">
     <div class="page__content">
       <header class="header page__section">
         <img
-          src="<%=require('./images/around-theus.svg')%>"
+          src="images/around-theus.svg"
           alt="logo"
           class="header__logo"
         />
@@ -24,7 +21,7 @@
         <section class="profile page__section">
           <div class="profile__photo-container">
             <img
-              src="<%=require('./images/Avatar.jpg')%>"
+              src="images/Avatar.jpg"
               alt="profile photo"
               class="profile__photo"
             />
@@ -54,13 +51,11 @@
         <p class="footer__copyright">&copy; 2022 Around The U.S.</p>
       </footer>
     </div>
+
+    <!-- Modals -->
     <div class="modal" id="profile-edit-modal">
       <div class="modal__container">
-        <button
-          class="modal__close"
-          id="profile-modal-close"
-          type="button"
-        ></button>
+        <button class="modal__close" id="profile-modal-close" type="button"></button>
         <p class="modal__heading">Edit Profile</p>
         <form class="modal__form">
           <label class="modal__label">
@@ -74,7 +69,6 @@
               minlength="2"
               required
             />
-
             <span class="modal__error" id="profile-title-input-error"></span>
           </label>
           <label class="modal__label">
@@ -111,7 +105,6 @@
             />
             <span class="modal__error" id="profile-picture-input-error"></span>
           </label>
-
           <button class="modal__button" type="submit">Save</button>
         </form>
       </div>
@@ -119,11 +112,7 @@
 
     <div class="modal" id="card-add-modal">
       <div class="modal__container">
-        <button
-          class="modal__close"
-          id="add-modal-close"
-          type="button"
-        ></button>
+        <button class="modal__close" id="add-modal-close" type="button"></button>
         <p class="modal__heading">New Place</p>
         <form class="modal__form" id="card-add-form">
           <label class="modal__label">
@@ -150,20 +139,14 @@
             />
             <span class="modal__error" id="card-link-input-error"></span>
           </label>
-          <button class="modal__button" id="save-card" type="submit">
-            Create
-          </button>
+          <button class="modal__button" id="save-card" type="submit">Create</button>
         </form>
       </div>
     </div>
 
     <div class="modal modal_type_preview" id="js-preview-modal">
       <div class="modal__image-container">
-        <button
-          class="modal__close"
-          type="button"
-          id="image-modal-close"
-        ></button>
+        <button class="modal__close" type="button" id="image-modal-close"></button>
         <img class="modal__preview-image" src="" alt="" />
         <p class="modal__preview-caption" id="modal-image-title"></p>
       </div>
@@ -171,39 +154,23 @@
 
     <div class="modal modal__delete-card" id="delete-card-modal">
       <div class="modal__container modal__container-delete">
-        <button
-          class="modal__close"
-          id="delete-modal-close"
-          type="button"
-        ></button>
+        <button class="modal__close" id="delete-modal-close" type="button"></button>
         <form class="modal__form">
           <p class="modal__heading">Are you sure?</p>
-          <button
-            class="modal__button"
-            id="confirm-delete-button"
-            type="submit"
-          >
-            Yes
-          </button>
+          <button class="modal__button" id="confirm-delete-button" type="submit">Yes</button>
         </form>
       </div>
     </div>
 
     <template id="card-template">
       <li class="card" id="card">
-        <button
-          class="card__delete-button"
-          type="button"
-          id="card-delete-button"
-        ></button>
-        <img src=" " alt=" " class="card__image" />
+        <button class="card__delete-button" type="button" id="card-delete-button"></button>
+        <img src="" alt="" class="card__image" />
         <div class="card__description">
           <h2 class="card__title"></h2>
           <button class="card__like-button" type="button"></button>
         </div>
       </li>
     </template>
-
-    <!-- <script src="../src/pages/index.js" type="module"></script> -->
   </body>
 </html>
