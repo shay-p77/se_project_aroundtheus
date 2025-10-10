@@ -1,11 +1,11 @@
-import "./index.css";
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import UserInfo from "../components/UserInfo.js";
-import Section from "../components/Section.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import PopupWithImage from "../components/PopupWithImage.js";
-import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
+import Card from "./components/Card.js";
+import FormValidator from "./components/FormValidator.js";
+import UserInfo from "./components/UserInfo.js";
+import Section from "./components/Section.js";
+import PopupWithForm from "./components/PopupWithForm.js";
+import PopupWithImage from "./components/PopupWithImage.js";
+import PopupWithConfirmation from "./components/PopupWithConfirmation.js";
+
 import {
   validationSettings,
   cardListEl,
@@ -30,8 +30,9 @@ import {
   initialCards,
   avatarProfile,
   cardLikeButton,
-} from "../utils/constants.js";
-import api from "../components/Api.js";
+} from "./utils/constants.js";
+
+import api from "./components/Api.js";
 
 // User info setup
 const userInfo = new UserInfo({
