@@ -9,28 +9,16 @@ import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import api from "../components/Api.js";
 import {
   validationSettings,
-  cardListEl,
   cardTemplate,
   profileEditButton,
-  profileEditModal,
   profileTitleInput,
   profileSubtitleInput,
   profileEditForm,
   cardAddButton,
   cardAddForm,
-  previewImageModal,
-  previewImage,
-  previewImageTitle,
-  profileAvatar,
-  profileName,
-  profileSubtitle,
-  deleteCardModal,
-  deleteButton,
   avatarEditButton,
   avatarEditForm,
-  initialCards,
-  avatarProfile,
-  cardLikeButton,
+  cardListEl,
 } from "../utils/constants.js";
 
 // User info setup
@@ -40,6 +28,7 @@ const userInfo = new UserInfo({
   avatarSelector: ".profile__photo",
 });
 
+// Section for cards
 const cardSection = new Section(
   {
     items: [],
@@ -49,212 +38,140 @@ const cardSection = new Section(
   },
   ".cards__list"
 );
-// cardSection.renderItems();
+
 let currentUserId;
-// Fetch user info and cards from the API
-api
-  .getAppData()
+
+// Fetch user info and cards
+api.getAppData()
   .then(([userData, cards]) => {
     currentUserId = userData._id;
 
-    // Update user info in the DOM
-    userInfo.setUserInfo({
-      name: userData.name,
-      job: userData.about,
-    });
-
+    userInfo.setUserInfo({ name: userData.name, job: userData.about });
     userInfo.setUserAvatar(userData.avatar);
+
     cardSection.renderItems(cards);
   })
-  .catch((err) => {
-    console.error("Error loading app data:", err);
-  });
+  .catch((err) => console.error("Error loading app data:", err));
 
-// Function to render individual cards
-function renderCard(cardData) {
-  const cardElement = createCard(cardData);
-  cardSection.addItem(cardElement);
-}
-
-function handleDeleteClick(cardInstance) {
-  confirmDeletePopup.setSubmitAction(() => {
-    const cardId = cardInstance.getId();
-    api
-      .deleteCard(cardId)
-      .then(() => {
-        cardInstance.removeCard();
-        confirmDeletePopup.close();
-      })
-      .catch((err) => {
-        console.error("Error deleting card:", err);
-      });
-  });
-
-  confirmDeletePopup.open();
-}
-
-function handleCardLike(card) {
-  const isLiked = card.isLiked;
-  const cardId = card.getId();
-
-  // card.setLikes(!isLiked);
-
-  const likeRequest = isLiked ? api.unlikeCard(cardId) : api.likeCard(cardId);
-
-  likeRequest
-    .then((updatedCard) => {
-      card.setLikes(updatedCard.isLiked);
-    })
-    .catch((err) => {
-      console.error("Error updating like status:", err);
-      card.setLikes(isLiked);
-    });
-}
-
-// Function to create a new card
-function createCard(cardData) {
+// Create a card
+function createCard(data) {
   const card = new Card(
-    cardData,
+    data,
     "#card-template",
     handleImageClick,
     handleDeleteClick,
     handleCardLike,
     currentUserId
   );
-
-  const cardElement = card.getView();
-  cardElement.setAttribute("data-id", cardData._id);
-
-  return cardElement;
+  return card.getView();
 }
 
-// Function to handle image clicks and open the preview
+// Render a card
+function renderCard(data) {
+  const cardElement = createCard(data);
+  cardSection.addItem(cardElement);
+}
+
+// Handle image click
 function handleImageClick(name, link) {
+  if (!popupWithImage) return;
   popupWithImage.open({ name, link });
 }
 
-// Popup handling
+// Handle card delete
+function handleDeleteClick(cardInstance) {
+  if (!confirmDeletePopup) return;
+  confirmDeletePopup.setSubmitAction(() => {
+    api.deleteCard(cardInstance.getId())
+      .then(() => {
+        cardInstance.removeCard();
+        confirmDeletePopup.close();
+      })
+      .catch(err => console.error("Error deleting card:", err));
+  });
+  confirmDeletePopup.open();
+}
+
+// Handle card like
+function handleCardLike(card) {
+  const isLiked = card.isLiked;
+  const request = isLiked ? api.unlikeCard(card.getId()) : api.likeCard(card.getId());
+  request
+    .then(updatedCard => card.setLikes(updatedCard.isLiked))
+    .catch(() => card.setLikes(isLiked));
+}
+
+// Profile popup
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
-  const updatedName = formData["profile-title-input"];
-  const updatedAbout = formData["profile-subtitle-input"];
-
-  profilePopup.setLoadingText(true); // Show "Saving..."
-
-  api
-    .updateUserProfile(updatedName, updatedAbout)
-    .then((updatedUserData) => {
-      userInfo.setUserInfo({
-        name: updatedUserData.name,
-        job: updatedUserData.about,
-      });
+  profilePopup.setLoadingText(true);
+  api.updateUserProfile(formData["profile-title-input"], formData["profile-subtitle-input"])
+    .then(updated => {
+      userInfo.setUserInfo({ name: updated.name, job: updated.about });
       profilePopup.close();
     })
-    .catch((err) => {
-      console.error("Error updating profile:", err);
-    })
-    .finally(() => {
-      profilePopup.setLoadingText(false, "Save");
-    });
+    .catch(err => console.error(err))
+    .finally(() => profilePopup.setLoadingText(false, "Save"));
 });
+profilePopup.setEventListeners();
 
-const avatarPopup = new PopupWithForm(
-  "#modal-change-profile-picture",
-  (formData) => {
-    console.log("formData:", formData);
-
-    const newAvatarLink = formData["profile-picture-link"];
-
-    avatarPopup.setLoadingText(true);
-
-    api
-      .updateAvatar(newAvatarLink)
-      .then((updatedUser) => {
-        userInfo.setUserAvatar(updatedUser.avatar);
-        avatarPopup.close();
-        avatarEditForm.reset();
-
-      })
-      .catch((err) => {
-        console.error("Error updating avatar:", err);
-      })
-      .finally(() => {
-        avatarPopup.setLoadingText(false, "Save");
-      });
-  }
-);
+// Avatar popup
+const avatarPopup = new PopupWithForm("#modal-change-profile-picture", (formData) => {
+  avatarPopup.setLoadingText(true);
+  const newAvatar = formData["profile-picture-input"];
+  api.updateAvatar(newAvatar)
+    .then(updated => {
+      userInfo.setUserAvatar(updated.avatar);
+      avatarPopup.close();
+      avatarEditForm.reset();
+    })
+    .catch(err => console.error(err))
+    .finally(() => avatarPopup.setLoadingText(false, "Save"));
+});
 avatarPopup.setEventListeners();
-
 avatarEditButton.addEventListener("click", () => {
   avatarFormValidator.disableSubmitButton();
   avatarPopup.open();
 });
 
+// Add card popup
 const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
-  const cardName = formData["card-title-input"];
-  const cardLink = formData["card-link-input"];
-
-  const cardData = {
-    name: cardName,
-    link: cardLink,
-  };
-
   cardPopup.setLoadingText(true);
-
-  api
-    .addCard(cardData)
-    .then((newCard) => {
+  const cardData = { name: formData["card-title-input"], link: formData["card-link-input"] };
+  api.addCard(cardData)
+    .then(newCard => {
       renderCard(newCard);
       cardPopup.close();
       cardAddForm.reset();
     })
-    .catch((err) => {
-      console.error("Error adding card:", err);
-    })
-    .finally(() => {
-      cardPopup.setLoadingText(false, "Create");
-    });
+    .catch(err => console.error(err))
+    .finally(() => cardPopup.setLoadingText(false, "Create"));
 });
-
-profilePopup.setEventListeners();
 cardPopup.setEventListeners();
 
-// Popup with image instance
-const popupWithImage = new PopupWithImage("#js-preview-modal");
+// Image preview popup
+const popupWithImage = new PopupWithImage("#modal-preview-image");
 popupWithImage.setEventListeners();
 
-// Validation setup
-const editFormValidator = new FormValidator(
-  validationSettings,
-  profileEditForm
-);
-editFormValidator.enableValidation();
+// Delete confirmation popup (make sure you add this modal in HTML)
+const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
+confirmDeletePopup.setEventListeners();
 
+// Form validators
+const editFormValidator = new FormValidator(validationSettings, profileEditForm);
+editFormValidator.enableValidation();
 const addFormValidator = new FormValidator(validationSettings, cardAddForm);
 addFormValidator.enableValidation();
-
-const avatarFormValidator = new FormValidator(
-  validationSettings,
-  avatarEditForm
-);
+const avatarFormValidator = new FormValidator(validationSettings, avatarEditForm);
 avatarFormValidator.enableValidation();
 
-// Event listeners for profile and card buttons
+// Button listeners
 profileEditButton.addEventListener("click", () => {
   const userData = userInfo.getUserInfo();
   profileTitleInput.value = userData.name;
   profileSubtitleInput.value = userData.job;
   profilePopup.open();
 });
-
 cardAddButton.addEventListener("click", () => {
   addFormValidator.disableSubmitButton();
   cardPopup.open();
 });
-
-const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
-confirmDeletePopup.setEventListeners();
-
-// TO FIX
-
-//      profileAvatar.src = userData.avatar;
-// Only methods of UserInfo should set/get the profile data (including the avatar)

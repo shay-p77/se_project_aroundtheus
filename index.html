@@ -44,7 +44,7 @@
     <div class="modal__container">
       <button class="modal__close" id="profile-modal-close" type="button"></button>
       <p class="modal__heading">Edit Profile</p>
-      <form class="modal__form">
+      <form class="modal__form" id="profile-edit-form">
         <label class="modal__label">
           <input class="modal__input" id="profile-title-input" type="text" placeholder="Name" maxlength="40" minlength="2" required>
           <span class="modal__error" id="profile-title-input-error"></span>
@@ -90,6 +90,15 @@
     </div>
   </div>
 
+  <!-- Image Preview Modal -->
+  <div class="modal modal_type_preview" id="js-preview-modal">
+    <div class="modal__image-container">
+      <button class="modal__close" type="button" id="image-modal-close"></button>
+      <img class="modal__preview-image" src="" alt="" />
+      <p class="modal__preview-caption" id="modal-image-title"></p>
+    </div>
+  </div>
+
   <template id="card-template">
     <li class="card">
       <button class="card__delete-button" type="button"></button>
@@ -100,7 +109,7 @@
       </div>
     </li>
   </template>
-<script type="module" src="pages/index.js"></script>
 
+  <script type="module" src="pages/index.js"></script>
 </body>
 </html>
