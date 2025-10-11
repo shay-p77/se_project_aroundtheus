@@ -17,21 +17,20 @@ import {
   cardAddForm,
   avatarEditButton,
   avatarEditForm,
+  cardListEl,
+  cardTemplate
 } from "../utils/constants.js";
 
 // ---- User Info ----
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   jobSelector: ".profile__subtitle",
-  avatarSelector: ".profile__photo",
+  avatarSelector: ".profile__photo"
 });
 
 // ---- Section for Cards ----
 const cardSection = new Section(
-  {
-    items: [],
-    renderer: (cardData) => renderCard(cardData),
-  },
+  { items: [], renderer: (data) => renderCard(data) },
   ".cards__list"
 );
 
@@ -77,7 +76,7 @@ function handleDeleteClick(cardInstance) {
         cardInstance.removeCard();
         confirmDeletePopup.close();
       })
-      .catch(err => console.error("Error deleting card:", err));
+      .catch(err => console.error(err));
   });
   confirmDeletePopup.open();
 }
@@ -93,44 +92,30 @@ function handleCardLike(card) {
 // ---- Popups ----
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
   profilePopup.setLoadingText(true);
-  api.updateUserProfile(formData["profile-title-input"], formData["profile-subtitle-input"])
+  return api.updateUserProfile(formData["profile-title-input"], formData["profile-subtitle-input"])
     .then(updated => {
       userInfo.setUserInfo({ name: updated.name, job: updated.about });
-      profilePopup.close();
     })
-    .catch(err => console.error(err))
     .finally(() => profilePopup.setLoadingText(false, "Save"));
 });
 profilePopup.setEventListeners();
 
-const avatarPopup = new PopupWithForm("#modal-change-profile-picture", (formData) => {
+const avatarPopup = new PopupWithForm("#avatar-modal", (formData) => {
   avatarPopup.setLoadingText(true);
-  const newAvatar = formData["profile-picture-input"];
-  api.updateAvatar(newAvatar)
-    .then(updated => {
-      userInfo.setUserAvatar(updated.avatar);
-      avatarPopup.close();
-      avatarEditForm.reset();
-    })
-    .catch(err => console.error(err))
+  return api.updateAvatar(formData["profile-picture-input"])
+    .then(updated => userInfo.setUserAvatar(updated.avatar))
     .finally(() => avatarPopup.setLoadingText(false, "Save"));
 });
 avatarPopup.setEventListeners();
+
 avatarEditButton.addEventListener("click", () => {
-  avatarFormValidator.disableSubmitButton();
   avatarPopup.open();
 });
 
 const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
   cardPopup.setLoadingText(true);
-  const cardData = { name: formData["card-title-input"], link: formData["card-link-input"] };
-  api.addCard(cardData)
-    .then(newCard => {
-      renderCard(newCard);
-      cardPopup.close();
-      cardAddForm.reset();
-    })
-    .catch(err => console.error(err))
+  return api.addCard({ name: formData["card-title-input"], link: formData["card-link-input"] })
+    .then(newCard => renderCard(newCard))
     .finally(() => cardPopup.setLoadingText(false, "Create"));
 });
 cardPopup.setEventListeners();
@@ -142,22 +127,16 @@ const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
 confirmDeletePopup.setEventListeners();
 
 // ---- Form Validators ----
-const editFormValidator = new FormValidator(validationSettings, profileEditForm);
-editFormValidator.enableValidation();
-const addFormValidator = new FormValidator(validationSettings, cardAddForm);
-addFormValidator.enableValidation();
-const avatarFormValidator = new FormValidator(validationSettings, avatarEditForm);
-avatarFormValidator.enableValidation();
+new FormValidator(validationSettings, profileEditForm).enableValidation();
+new FormValidator(validationSettings, cardAddForm).enableValidation();
+new FormValidator(validationSettings, avatarEditForm).enableValidation();
 
 // ---- Button Listeners ----
 profileEditButton.addEventListener("click", () => {
-  const userData = userInfo.getUserInfo();
-  profileTitleInput.value = userData.name;
-  profileSubtitleInput.value = userData.job;
+  const data = userInfo.getUserInfo();
+  profileTitleInput.value = data.name;
+  profileSubtitleInput.value = data.job;
   profilePopup.open();
 });
 
-cardAddButton.addEventListener("click", () => {
-  addFormValidator.disableSubmitButton();
-  cardPopup.open();
-});
+cardAddButton.addEventListener("click", () => cardPopup.open());
