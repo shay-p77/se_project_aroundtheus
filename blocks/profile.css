@@ -57,7 +57,7 @@
 }
 
 /* ✅ FIX: match the real container class */
-.profile__photo-container:hover .profile__photo-button {
+.profile__avatar-container:hover .profile__photo-button {
   opacity: 1;
 }
 
