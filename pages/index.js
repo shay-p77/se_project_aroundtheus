@@ -96,22 +96,27 @@ function handleCardLike(card) {
 //   ---- Popups ----
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
   profilePopup.setLoadingText(true);
-  return api
-    .updateUserProfile(
-      formData["profile-title-input"],
-      formData["profile-subtitle-input"]
-    )
-    .then((updated) => {
-      userInfo.setUserInfo({ name: updated.name, job: updated.about });
-    })
-    .finally(() => profilePopup.setLoadingText(false, "Save"));
+  return (
+    api
+      .addCard({ name: formData.name, link: formData.link })
+
+      // return api
+      //   .updateUserProfile(
+      //     formData["profile-title-input"],
+      //     formData["profile-subtitle-input"]
+      //   )
+      .then((updated) => {
+        userInfo.setUserInfo({ name: updated.name, job: updated.about });
+      })
+      .finally(() => profilePopup.setLoadingText(false, "Save"))
+  );
 });
 profilePopup.setEventListeners();
 
 const avatarPopup = new PopupWithForm("#avatar-modal", (formData) => {
   avatarPopup.setLoadingText(true);
   return api
-    .updateAvatar(formData["profile-picture-input"])
+    .updateAvatar(formData.avatar)
     .then((updated) => userInfo.setUserAvatar(updated.avatar))
     .finally(() => avatarPopup.setLoadingText(false, "Save"));
 });
