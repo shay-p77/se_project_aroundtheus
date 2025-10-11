@@ -94,24 +94,18 @@ function handleCardLike(card) {
 }
 
 //   ---- Popups ----
+// ---- Profile Edit Popup ----
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
   profilePopup.setLoadingText(true);
-  return (
-    api
-      .addCard({ name: formData.name, link: formData.link })
-
-      // return api
-      //   .updateUserProfile(
-      //     formData["profile-title-input"],
-      //     formData["profile-subtitle-input"]
-      //   )
-      .then((updated) => {
-        userInfo.setUserInfo({ name: updated.name, job: updated.about });
-      })
-      .finally(() => profilePopup.setLoadingText(false, "Save"))
-  );
+  return api
+    .updateUserInfo({ name: formData.name, about: formData.about })  // ✅ FIXED
+    .then((updated) => {
+      userInfo.setUserInfo({ name: updated.name, job: updated.about });
+    })
+    .finally(() => profilePopup.setLoadingText(false, "Save"));
 });
 profilePopup.setEventListeners();
+
 
 const avatarPopup = new PopupWithForm("#avatar-modal", (formData) => {
   avatarPopup.setLoadingText(true);
@@ -126,12 +120,13 @@ avatarEditButton.addEventListener("click", () => {
   avatarPopup.open();
 });
 
+// ---- Card Add Popup ----
 const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
   cardPopup.setLoadingText(true);
   return api
     .addCard({
-      name: formData["card-title-input"],
-      link: formData["card-link-input"],
+      name: formData.name,   // ✅ FIXED
+      link: formData.link,   // ✅ FIXED
     })
     .then((newCard) => renderCard(newCard))
     .finally(() => cardPopup.setLoadingText(false, "Create"));
