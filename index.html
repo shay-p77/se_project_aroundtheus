@@ -19,7 +19,7 @@
       <section class="profile page__section">
         <div class="profile__photo-container">
           <img src="images/Avatar.jpg" alt="profile photo" class="profile__photo" />
-          <button class="profile__photo-button" type="button"></button>
+          <button class="profile__photo-button" id="avatar-edit-button" type="button"></button>
         </div>
         <div class="profile__info">
           <h1 class="profile__title">Jacques Cousteau</h1>
@@ -39,10 +39,10 @@
     </footer>
   </div>
 
-  <!-- Modals -->
+  <!-- Profile Edit Modal -->
   <div class="modal" id="profile-edit-modal">
     <div class="modal__container">
-      <button class="modal__close" id="profile-modal-close" type="button"></button>
+      <button class="modal__close" type="button"></button>
       <p class="modal__heading">Edit Profile</p>
       <form class="modal__form" id="profile-edit-form">
         <label class="modal__label">
@@ -58,10 +58,11 @@
     </div>
   </div>
 
+  <!-- Avatar Edit Modal -->
   <div class="modal" id="modal-change-profile-picture">
     <div class="modal__container">
       <button class="modal__close" type="button"></button>
-      <p class="modal__heading">Change profile picture</p>
+      <p class="modal__heading">Change Profile Picture</p>
       <form class="modal__form" id="avatar-form">
         <label class="modal__label">
           <input type="url" class="modal__input" id="profile-picture-input" placeholder="Image URL" required>
@@ -72,9 +73,10 @@
     </div>
   </div>
 
+  <!-- Add Card Modal -->
   <div class="modal" id="card-add-modal">
     <div class="modal__container">
-      <button class="modal__close" id="add-modal-close" type="button"></button>
+      <button class="modal__close" type="button"></button>
       <p class="modal__heading">New Place</p>
       <form class="modal__form" id="card-add-form">
         <label class="modal__label">
@@ -93,12 +95,22 @@
   <!-- Image Preview Modal -->
   <div class="modal modal_type_preview" id="js-preview-modal">
     <div class="modal__image-container">
-      <button class="modal__close" type="button" id="image-modal-close"></button>
+      <button class="modal__close" type="button"></button>
       <img class="modal__preview-image" src="" alt="" />
       <p class="modal__preview-caption" id="modal-image-title"></p>
     </div>
   </div>
 
+  <!-- Delete Confirmation Modal -->
+  <div class="modal" id="delete-card-modal">
+    <div class="modal__container">
+      <button class="modal__close" type="button"></button>
+      <p class="modal__heading">Are you sure?</p>
+      <button class="modal__button" id="confirm-delete-button" type="button">Yes</button>
+    </div>
+  </div>
+
+  <!-- Card Template -->
   <template id="card-template">
     <li class="card">
       <button class="card__delete-button" type="button"></button>

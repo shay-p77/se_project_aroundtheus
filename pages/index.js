@@ -9,7 +9,6 @@ import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import api from "../components/Api.js";
 import {
   validationSettings,
-  cardTemplate,
   profileEditButton,
   profileTitleInput,
   profileSubtitleInput,
@@ -18,42 +17,37 @@ import {
   cardAddForm,
   avatarEditButton,
   avatarEditForm,
-  cardListEl,
 } from "../utils/constants.js";
 
-// User info setup
+// ---- User Info ----
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   jobSelector: ".profile__subtitle",
   avatarSelector: ".profile__photo",
 });
 
-// Section for cards
+// ---- Section for Cards ----
 const cardSection = new Section(
   {
     items: [],
-    renderer: (cardData) => {
-      renderCard(cardData);
-    },
+    renderer: (cardData) => renderCard(cardData),
   },
   ".cards__list"
 );
 
 let currentUserId;
 
-// Fetch user info and cards
+// ---- Fetch initial data ----
 api.getAppData()
   .then(([userData, cards]) => {
     currentUserId = userData._id;
-
     userInfo.setUserInfo({ name: userData.name, job: userData.about });
     userInfo.setUserAvatar(userData.avatar);
-
     cardSection.renderItems(cards);
   })
-  .catch((err) => console.error("Error loading app data:", err));
+  .catch(err => console.error("Error loading app data:", err));
 
-// Create a card
+// ---- Card Functions ----
 function createCard(data) {
   const card = new Card(
     data,
@@ -66,21 +60,17 @@ function createCard(data) {
   return card.getView();
 }
 
-// Render a card
 function renderCard(data) {
   const cardElement = createCard(data);
   cardSection.addItem(cardElement);
 }
 
-// Handle image click
+// ---- Card Handlers ----
 function handleImageClick(name, link) {
-  if (!popupWithImage) return;
   popupWithImage.open({ name, link });
 }
 
-// Handle card delete
 function handleDeleteClick(cardInstance) {
-  if (!confirmDeletePopup) return;
   confirmDeletePopup.setSubmitAction(() => {
     api.deleteCard(cardInstance.getId())
       .then(() => {
@@ -92,16 +82,15 @@ function handleDeleteClick(cardInstance) {
   confirmDeletePopup.open();
 }
 
-// Handle card like
 function handleCardLike(card) {
   const isLiked = card.isLiked;
   const request = isLiked ? api.unlikeCard(card.getId()) : api.likeCard(card.getId());
   request
-    .then(updatedCard => card.setLikes(updatedCard.isLiked))
+    .then(updated => card.setLikes(updated.isLiked))
     .catch(() => card.setLikes(isLiked));
 }
 
-// Profile popup
+// ---- Popups ----
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
   profilePopup.setLoadingText(true);
   api.updateUserProfile(formData["profile-title-input"], formData["profile-subtitle-input"])
@@ -114,7 +103,6 @@ const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
 });
 profilePopup.setEventListeners();
 
-// Avatar popup
 const avatarPopup = new PopupWithForm("#modal-change-profile-picture", (formData) => {
   avatarPopup.setLoadingText(true);
   const newAvatar = formData["profile-picture-input"];
@@ -133,7 +121,6 @@ avatarEditButton.addEventListener("click", () => {
   avatarPopup.open();
 });
 
-// Add card popup
 const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
   cardPopup.setLoadingText(true);
   const cardData = { name: formData["card-title-input"], link: formData["card-link-input"] };
@@ -148,15 +135,13 @@ const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
 });
 cardPopup.setEventListeners();
 
-// Image preview popup
-const popupWithImage = new PopupWithImage("#modal-preview-image");
+const popupWithImage = new PopupWithImage("#js-preview-modal");
 popupWithImage.setEventListeners();
 
-// Delete confirmation popup (make sure you add this modal in HTML)
 const confirmDeletePopup = new PopupWithConfirmation("#delete-card-modal");
 confirmDeletePopup.setEventListeners();
 
-// Form validators
+// ---- Form Validators ----
 const editFormValidator = new FormValidator(validationSettings, profileEditForm);
 editFormValidator.enableValidation();
 const addFormValidator = new FormValidator(validationSettings, cardAddForm);
@@ -164,13 +149,14 @@ addFormValidator.enableValidation();
 const avatarFormValidator = new FormValidator(validationSettings, avatarEditForm);
 avatarFormValidator.enableValidation();
 
-// Button listeners
+// ---- Button Listeners ----
 profileEditButton.addEventListener("click", () => {
   const userData = userInfo.getUserInfo();
   profileTitleInput.value = userData.name;
   profileSubtitleInput.value = userData.job;
   profilePopup.open();
 });
+
 cardAddButton.addEventListener("click", () => {
   addFormValidator.disableSubmitButton();
   cardPopup.open();
