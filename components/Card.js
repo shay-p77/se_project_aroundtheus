@@ -1,13 +1,5 @@
 export default class Card {
-  constructor(
-    // { name, link },
-    data,
-    cardSelector,
-    handleImageClick,
-    handleDeleteClick,
-    handleCardLike,
-    userId
-  ) {
+  constructor(data, cardSelector, handleImageClick, handleDeleteClick, handleCardLike, userId) {
     this._data = data;
     this._name = data.name;
     this._link = data.link;
@@ -29,11 +21,8 @@ export default class Card {
   }
 
   _renderLikes() {
-    if (this.isLiked) {
-      this._likeButton.classList.add("card__like-button_active");
-    } else {
-      this._likeButton.classList.remove("card__like-button_active");
-    }
+    if (this.isLiked) this._likeButton.classList.add("card__like-button_active");
+    else this._likeButton.classList.remove("card__like-button_active");
   }
 
   setLikes(isLiked) {
@@ -43,25 +32,12 @@ export default class Card {
 
   _setEventListeners() {
     this._likeButton = this._cardElement.querySelector(".card__like-button");
-    this._deleteButton = this._cardElement.querySelector("#card-delete-button");
+    this._deleteButton = this._cardElement.querySelector(".card__delete-button");
     this._cardImage = this._cardElement.querySelector(".card__image");
 
-    // Like button click
-    this._likeButton.addEventListener("click", () => {
-      this._handleCardLike(this);
-    });
-
-    // Open Image Modal
-
-    this._cardImage.addEventListener("click", () => {
-      this._handleImageClick(this._name, this._link);
-    });
-
-    // delete modal
-
-    this._deleteButton.addEventListener("click", () => {
-      this._handleDeleteClick(this);
-    });
+    this._likeButton.addEventListener("click", () => this._handleCardLike(this));
+    this._cardImage.addEventListener("click", () => this._handleImageClick(this._name, this._link));
+    this._deleteButton.addEventListener("click", () => this._handleDeleteClick(this));
   }
 
   getView() {
@@ -70,7 +46,6 @@ export default class Card {
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
-
     this._likeButton = this._cardElement.querySelector(".card__like-button");
     this._renderLikes();
     this._setEventListeners();
