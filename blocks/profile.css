@@ -23,6 +23,50 @@
   width: 120px;
   height: 120px;
   margin-right: 24px;
+}
+
+.profile__photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-position: center;
+  margin-right: 24px;
+  transition: opacity 0.3s ease;
+}
+
+.profile__photo-container:hover .profile__photo {
+  opacity: 0.5;
+}
+
+.profile__photo-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  background-image: url(../images/edit-pic.svg);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: none;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+/* ✅ FIX: match the real container class */
+.profile__photo-container:hover .profile__photo-button {
+  opacity: 1;
+}
+
+
+/* .profile__photo-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-right: 24px;
 
 }
 
@@ -59,7 +103,7 @@
 
 .profile__avatar-container:hover .profile__photo-button {
   opacity: 1;
-}
+} */
 
 
 .profile__title {

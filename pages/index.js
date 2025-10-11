@@ -98,14 +98,13 @@ function handleCardLike(card) {
 const profilePopup = new PopupWithForm("#profile-edit-modal", (formData) => {
   profilePopup.setLoadingText(true);
   return api
-    .updateUserInfo({ name: formData.name, about: formData.about })  // ✅ FIXED
+    .updateUserInfo({ name: formData.name, about: formData.about }) // ✅ FIXED
     .then((updated) => {
       userInfo.setUserInfo({ name: updated.name, job: updated.about });
     })
     .finally(() => profilePopup.setLoadingText(false, "Save"));
 });
 profilePopup.setEventListeners();
-
 
 const avatarPopup = new PopupWithForm("#avatar-modal", (formData) => {
   avatarPopup.setLoadingText(true);
@@ -125,10 +124,16 @@ const cardPopup = new PopupWithForm("#card-add-modal", (formData) => {
   cardPopup.setLoadingText(true);
   return api
     .addCard({
-      name: formData.name,   // ✅ FIXED
-      link: formData.link,   // ✅ FIXED
+      name: formData.name,
+      link: formData.link,
     })
-    .then((newCard) => renderCard(newCard))
+    .then((newCard) => {
+      renderCard(newCard);
+      cardPopup.close();
+
+      // ✅ clear the form after submit
+      document.querySelector("#card-add-modal .modal__form").reset();
+    })
     .finally(() => cardPopup.setLoadingText(false, "Create"));
 });
 cardPopup.setEventListeners();
