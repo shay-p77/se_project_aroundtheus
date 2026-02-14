@@ -35,6 +35,11 @@
   width: 100%;
 }
 
+.modal__container-delete {
+  width: 430px;
+  height: 181px;
+}
+
 .modal__close {
   background-image: url(../images/close-icon.svg);
   background-repeat: no-repeat;
@@ -101,6 +106,26 @@
   opacity: 70%;
 }
 
+.modal__photo {
+  background-image: url(../images/edit-pic.svg);
+  position: absolute;
+  right: -47;
+  width: 26px;
+  height: 26px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 2px;
+  background-color: transparent;
+  visibility: hidden;
+}
+
+.modal__photo:hover {
+  opacity: 50%;
+}
+
+.modal__delete-card {
+}
+
 @media (max-width: 320px) {
   .modal__container {
     padding: 25px 22px;
@@ -116,6 +141,8 @@
     line-height: 17px;
     margin-top: 15px;
   }
+
+   
 
   .modal__close {
     left: 250px;
